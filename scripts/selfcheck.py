@@ -75,6 +75,19 @@ def parse_frontmatter(text):
     return meta
 
 
+def norm_dirname(path):
+    """目录名归一化：GitHub zip 解压会得到 `xxx-main` / `xxx-master`，等价于 `xxx`。
+
+    这样"下载 zip 直接解压"和"git clone"两种来源都能通过同一份自检。
+    但**装进 skills/ 目录时必须用 name 原值**，否则 Agent 引用不到——仅放宽校验，不放宽规则。
+    """
+    base = os.path.basename(os.path.abspath(path))
+    for suf in ("-main", "-master"):
+        if base.endswith(suf):
+            return base[: -len(suf)]
+    return base
+
+
 # ---------------------------------------------------------------- 1
 def check_frontmatter():
     try:
@@ -86,9 +99,10 @@ def check_frontmatter():
     missing = [k for k in ("name", "description", "version", "license") if not meta.get(k)]
     if missing:
         return record(1, "SKILL.md frontmatter", False, "缺字段: " + ", ".join(missing))
-    if meta["name"] != os.path.basename(ROOT):
+    if meta["name"] != norm_dirname(ROOT):
         return record(1, "SKILL.md frontmatter", False,
-                      "name=%s 与目录名 %s 不一致" % (meta["name"], os.path.basename(ROOT)))
+                      "name=%s 与目录名 %s 不一致（装进 skills/ 时目录名必须是 name 原值）"
+                      % (meta["name"], os.path.basename(ROOT)))
     desc = meta["description"]
     if len(desc) < 60:
         return record(1, "SKILL.md frontmatter", False, "description 仅 %d 字，应 ≥60" % len(desc))
