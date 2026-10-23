@@ -8,11 +8,18 @@
 
 <p align="center">
   <a href="#-快速开始"><b>快速开始</b></a> ·
+  <a href="#-作为-skill-安装"><b>装成 Skill</b></a> ·
   <a href="#-使用示例"><b>使用示例</b></a> ·
   <a href="#-麦当劳-mcp-集成"><b>MCP 集成</b></a> ·
   <a href="./MCP_INTEGRATION.md"><b>集成细节</b></a> ·
   <a href="./workbuddy.md"><b>WorkBuddy 开发记录</b></a>
 </p>
+
+> [!IMPORTANT]
+> **本项目是非官方作品，与麦当劳中国无隶属关系。**
+> 页面中的产品名称、Logo 与产品图版权归麦当劳所有，仅用于本次大赛演示与学习交流，不作商业用途。
+> 门店价格、供应情况以麦当劳官方渠道实时结果为准。
+> 3D 组件为**程序化几何重建**（官方仅提供成品图，无组件级素材），不等同于官方配方或官方模型。
 
 ---
 
@@ -127,16 +134,35 @@
 
 ```bash
 # 需要 Python 3.8+，零第三方依赖（仅标准库）
-python scripts/studio_server.py --port 8765
+python scripts/run.py
 ```
 
-启动后终端会打印：
+启动器会做四件事：体检资产 → 挑端口（被占用自动 +1，最多试 20 个）→ 起服务 →
+轮询 `/api/ping` 通过后才打印地址。终端输出：
 
 ```
 🍔 麦当劳「真」随心配 已启动
-   本机访问：http://127.0.0.1:8765
-   局域网访问：http://192.168.x.x:8765   ← 同一 WiFi 下其他人用这个投票
+   本机访问  : http://127.0.0.1:8765
+   局域网访问: http://192.168.1.23:8765   (同一 WiFi 下其他设备可打开并投票)
+   自检入口  : http://127.0.0.1:8765/?selftest=1
 ```
+
+常用参数：
+
+| 参数 | 作用 |
+|---|---|
+| `--lan` | 监听 `0.0.0.0`，同一 WiFi 的同事/手机可访问并投票 |
+| `--port 9000` | 指定起始端口 |
+| `--no-open` | 不自动弹浏览器（后台/无头环境用） |
+| `--check` | 只体检，不启动服务 |
+
+<details>
+<summary>不用启动器，直接起服务（等价）</summary>
+
+```bash
+python scripts/studio_server.py --port 8765 --host 0.0.0.0
+```
+</details>
 
 ### 第三步：打开页面
 
@@ -144,17 +170,106 @@ python scripts/studio_server.py --port 8765
 
 > 没有 Token 也能跑：仓库内置 MCP 快照（`assets/menu_snapshot_20261023.json` + `assets/materials.json`），页面直接读快照演示；需要"实时刷新菜单"时才用得上 Token。
 
+---
+
+## 📦 作为 Skill 安装
+
+本项目本身就是一个可安装的 Agent Skill —— 根目录的 `SKILL.md` 即技能定义，`scripts/run.py` 是一键启动入口，`references/` 是渐进披露的参考文档。任何人都能把它装进自己的 Agent 里使用。
+
+### 三步装好
+
+**第一步 · 放进技能目录**
+
+```bash
+git clone https://github.com/Alex-star-arch/mcd-burger-studio.git
+mkdir -p ~/.workbuddy/skills
+cp -r mcd-burger-studio ~/.workbuddy/skills/
+```
+
+Windows PowerShell：
+
+```powershell
+git clone https://github.com/Alex-star-arch/mcd-burger-studio.git
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.workbuddy\skills" | Out-Null
+Copy-Item -Recurse mcd-burger-studio "$env:USERPROFILE\.workbuddy\skills\"
+```
+
+> 目录名必须与 `SKILL.md` 里的 `name: mcd-burger-studio` **完全一致**，否则 Agent 装载后引用不到。
+
+**第二步 · 重启 WorkBuddy**（或新开一个会话），让它重新扫描技能目录。
+
+**第三步 · 说一句触发词**
+
+> 「帮我用麦当劳素材配一个 30 元以内的套餐」
+
+Agent 应自主加载该技能 → 跑 `python scripts/run.py` → 把关卡地址和搭配方案一起给你，而不是反问"你想怎么做"。
+
+### 装不上就手动跑
+
+技能装好了但 Agent 没反应时，先确认技能本身是好的：
+
+```bash
+cd ~/.workbuddy/skills/mcd-burger-studio
+python scripts/run.py --check    # 体检：Python 版本、依赖文件、数据完整性
+python scripts/selfcheck.py      # 8 项断言，全绿才说明这份拷贝是完整的
+python scripts/run.py --lan      # 直接启动，自己用
+```
+
+### 交付前自检（8 项断言）
+
+```bash
+python scripts/selfcheck.py
+```
+
+```
+[PASS] 1. SKILL.md frontmatter      name=mcd-burger-studio version=2.0.0 desc=157 字
+[PASS] 2. SKILL.md 路径无死链        校验 13 条路径
+[PASS] 3. materials.json 完整性      119 项 / 63 可购 / 价格齐全
+[PASS] 4. 官方图覆盖                 119/119 项有图，目录内 127 张
+[PASS] 5. 前端依赖就绪                vendor 3 个 JS + components3d.js 语法通过
+[PASS] 6. gallery.json 结构          6 件作品
+[PASS] 7. HTTP 接口连通              ping/materials/gallery/首页/静态资源 均 200
+[PASS] 8. 无过期架构表述              8 类旧表述均未出现
+结果: 8/8 通过
+```
+
+不联网、不占固定端口（用 0 号端口自动分配），可以直接挂到 CI 或 pre-push 钩子。
+
+### 配置项
+
+| 键 | 默认值 | 必填 | 说明 |
+|---|---|---|---|
+| `--port` / `PORT` | `8765` | 否 | 被占用自动顺延 |
+| `--host` / `HOST` | `127.0.0.1` | 否 | 需局域网投票用 `--lan` |
+| `MCD_MCP_TOKEN` | — | 仅刷新菜单时需要 | 只出现在 `mcp-config.example.json` 占位，**永不入库真实值** |
+| `STORE_CODE` | `1450713` | 否 | 默认门店（上海黄浦华旭国际大厦） |
+| `OFFLINE` | `0` | 否 | `1` 时只读快照，不调 MCP |
+| Python | ≥3.8 | 是 | 零第三方依赖 |
+
+### 技能里有什么（渐进披露）
+
+| 路径 | 读者 | 内容 |
+|---|---|---|
+| `SKILL.md` | Agent / 人 | 技能定义：能力、接口、执行流程、边界（唯一权威） |
+| `references/mcp-tools.md` | Agent 排障 | 4 个 MCP 工具的真实参数、返回值、能力边界、降级策略 |
+| `references/data-schema.md` | 改数据的人 | 三份 JSON 全字段 + 接口请求体 + 错误码 |
+| `references/workflows.md` | Agent 执行 | 4 条用户旅程的确定性操作剧本 |
+| `references/troubleshooting.md` | 遇到问题的人 | 按"现象"查的排障表 |
+| `examples/prompts.md` | 评审 / 新用户 | 5 条示例指令与期望行为 |
+| `CHANGELOG.md` | 版本追溯 | 2.0.0 与历代变化 |
+
 ### 可选：在 WorkBuddy 对话里直接用
 
-仓库根目录的 `SKILL.md` 就是 WorkBuddy Skill 定义，安装后可直接说：
+装好之后不必手动点页面，直接说需求即可：
 
 > 「帮我用麦当劳在售素材配一份 40 元以内的双人套餐」
 
-Agent 会调用 `mcd-mcp` 拉真实菜单、给出搭配建议与营养合计。
+Agent 会读 `/api/materials` 做筛选、给搭配建议与营养合计，并把页面链接一并给你。
 
 ### 可选：离线看板
 
 双击 `assets/demo3d.html`，无需起服务即可看官方素材库与种子作品（纯图片，适合投屏演示）。
+
 
 ---
 
@@ -255,13 +370,21 @@ list-nutrition-foods()
 ```
 mcd-burger-studio/
 ├── README.md                    # 本文件：介绍 / 安装 / 示例 / 目标用户
+├── SKILL.md                     # ⭐ Skill 定义（唯一权威，版本 2.0.0）
+├── CHANGELOG.md                 # 版本记录
 ├── CONTEST_DECLARATION.md       # 参赛声明（官方原文，未改动）
 ├── MCP_INTEGRATION.md           # MCP Server / Tool / 调用流程 / 业务价值
 ├── mcp-config.example.json      # 脱敏 MCP 配置（仅环境变量占位）
 ├── workbuddy.md                 # WorkBuddy 开发对话上下文（专项奖励核验用）
 ├── REGISTRATION.md              # 报名 Issue 文案与提交自检清单
-├── SKILL.md                     # WorkBuddy Skill 定义
 ├── LICENSE                      # MIT
+├── references/                  # Skill 渐进披露文档
+│   ├── mcp-tools.md             #   4 个 MCP 工具的真实参数与能力边界
+│   ├── data-schema.md           #   三份 JSON 全字段 + 接口请求体 + 错误码
+│   ├── workflows.md             #   4 条用户旅程的确定性操作剧本
+│   └── troubleshooting.md       #   按现象查的排障表
+├── examples/
+│   └── prompts.md               # 5 条示例指令 → 期望行为（评审复现用）
 ├── assets/
 │   ├── burger_components_3d.html  # 主应用（三标签页）
 │   ├── components3d.js            # 19 种可分离汉堡组件 3D 几何库
@@ -271,11 +394,13 @@ mcd-burger-studio/
 │   ├── meal_detail_raw.json       # query-meal-detail 原始返回（官方组成）
 │   ├── official_composition.json  # 官方构造/排序规范
 │   ├── mcd_photos/                # 官方产品图 127 张（427×320 透明 PNG）
-│   ├── mcd_component_models/      # 组件 GLB 兜底（程序化几何优先）
+│   ├── mcd_component_models/      # 13 个组件 GLB（预留替换位，当前前端未加载）
 │   ├── mcd_models_hq/             # A100 InstantMesh 生成的高精度 GLB（6 件，历史版本产物，留作证据）
 │   ├── demo3d.html                # 离线官方图看板（双击即开）
 │   └── vendor/                    # Three.js r128 + OrbitControls + GLTFLoader（本地化）
 ├── scripts/
+│   ├── run.py                     # ⭐ 一键启动（体检→选端口→探活→打印地址）
+│   ├── selfcheck.py               # ⭐ 交付前 8 项断言（不联网、不占固定端口）
 │   ├── studio_server.py           # 零依赖服务（素材 / 发布 / 投票 / 预览图）
 │   ├── refresh_menu_from_mcp.py   # 用 MCP 快照重建素材库并下载官方图
 │   ├── seed_gallery.py            # 生成画廊种子作品

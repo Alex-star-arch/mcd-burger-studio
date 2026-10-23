@@ -1,92 +1,188 @@
 ---
 name: mcd-burger-studio
-description: 麦当劳「真」随心配——基于麦当劳 MCP 真实在售素材，让用户自由组合设计个性化汉堡，提供 3D 可视化（汉堡本体与全部食材一律使用麦当劳官方产品图，零自定义/占位几何与贴图，并按官方规范顺序排列）、多人参与设计与作品画廊投票打榜。用户想用麦当劳素材做创意汉堡、3D 可视化叠汉堡、发起/参与汉堡设计比赛或投票时使用。
-version: 1.0.0
+description: 麦当劳「真」随心配 —— 把麦当劳 MCP 的真实在售菜单当积木，让用户自由搭配套餐或逐层叠出个性化汉堡：官方单品图 2D 拼盘 + 程序化 3D 组件堆叠双视图，价格与营养实时聚合，作品可发布到本地画廊供他人投票打榜。当用户想用麦当劳素材拼套餐、设计创意汉堡、做 3D 汉堡可视化、发起或参与汉堡作品投票时使用。
+version: 2.0.0
 author: 万正浩
 license: MIT
-tags: [麦当劳, McDonald's, MCP, 汉堡设计, 创意, 可视化, 投票, 画廊]
+tags: [麦当劳, McDonald's, MCP, 汉堡设计, 套餐搭配, 3D, 可视化, 投票, 画廊, skill]
 agent_created: true
 ---
 
-# 麦当劳「真」随心配 (McDonald's Make-It-Your-Way)
+# 麦当劳「真」随心配 · McBurger Studio
 
-一个围绕「麦当劳 MCP」的真实创意 Skill：把麦当劳在售餐品当作设计素材，让用户像叠汉堡一样自由组合，实时可视化呈现，并支持多人参与设计、作品画廊展示与投票打榜。
+一个跑在本机的零依赖小站：左边货架是麦当劳**真实在售**单品（价格、营养、官方图全部来自麦当劳 MCP），
+用户把它们拖进托盘拼成套餐，或在 3D 场景里逐层叠成汉堡，成品可以发布到画廊让其他人投票。
 
-## 核心能力（对应需求四要素）
-1. **自由组合设计**：调用麦当劳 MCP 拉取真实在售菜单，分类为 汉堡/牛肉/炸鸡/鱼虾/芝士/卷/蔬果/小食/酱料/甜品/饮料 等素材，用户随意叠层设计个性化汉堡。
-2. **可视化呈现（官方素材 3D）**：汉堡本体与全部食材（牛肉/芝士/蔬菜/水果/饮品/小食/甜品等）**一律使用麦当劳官方产品图**（`assets/mcd_photos/*.png`，123 款透明 PNG），**不使用任何自定义或占位几何/贴图**——每个被选中的产品以官方照片作为 3D 布告板(billboard)在轨道可控场景中呈现，单一整只汉堡直接呈现官方整图（其内部牛肉/芝士/蔬菜/水果的排列由官方产品图本身保证）。排序严格遵循 **`assets/official_composition.json`** 的官方规范顺序（分类 priority + 经典汉堡组成顺序），并提供「⬆ 按官方规范排序」按钮。支持鼠标拖拽旋转、滚轮缩放；并聚合热量/蛋白/脂肪/价格。
-3. **多人参与**：所有用户共用同一画廊（`gallery/gallery.json`）；通过本地工作室服务，任何人都能打开页面设计、发布自己的作品。
-4. **展示与投票**：画廊按票数实时排名，访客可为喜欢的作品投票（按昵称去重），形成创意打榜。
+- **不需要联网也能跑**：127 张官方图、119 项素材、13 个组件模型全部已入库。
+- **不需要装任何包**：只用 Python 标准库，`python scripts/run.py` 即可。
+- **不是官方产品**：仅供创意演示，价格与供应以麦当劳官方渠道为准。
 
-## 麦当劳 MCP 集成（必须真实调用）
-本 Skill 真实使用已配置的 `mcd-mcp`（streamablehttp, https://mcp.mcd.cn）。流程：
-1. `mcp__mcd-mcp__query-nearby-stores`（beType=1, searchType=2, city=用户所在城市, keyword=区域）→ 取 `storeCode`。
-2. `mcp__mcd-mcp__query-meals`（storeCode, orderType=1, beType=1）→ 取真实在售菜单（分类、餐品编码、名称、图片、价格）。
-3. `mcp__mcd-mcp__query-meal-detail`（storeCode, orderType=1, beType=1, code）→ 取餐品**官方组成**（用于还原真实汉堡分层，如巨无霸=双层牛肉+芝士+生菜+酸黄瓜+洋葱粒+特制酱+三层芝麻面包）。
-3. `mcp__mcd-mcp__list-nutrition-foods` → 取营养数据，关联到素材用于热量/蛋白聚合。
-4. （可选）`mcp__mcd-mcp__calculate-price` → 对设计作品做更精确计价。
+---
 
-> 若麦当劳 MCP 连接器不可用或调用失败，**回退**到仓库内置快照 `assets/materials.json`（同样来自上述真实接口，已落盘），保证 Skill 仍可演示。
+## 一、30 秒上手
 
-## 工作流（Agent 执行步骤）
-当用户说「设计汉堡 / 做个麦当劳创意汉堡 / 开汉堡设计大赛」等时：
-
-### 步骤 A：准备素材库
-- 优先用上面的 MCP 三步拉取真实菜单；用 `scripts/build_materials.py` 生成/更新 `assets/materials.json`（分类+配色+营养）。
-- 兜底：直接使用内置 `assets/materials.json`。
-
-### 步骤 B：两种使用模式，询问用户偏好
-- **模式 1 · 3D 网页工作室（推荐，完整 3D 可视化+多人+投票）**：启动本地服务
-  `python scripts/studio_server.py --port 8765`（用 run_in_background 保持存活），然后把 `http://localhost:8765` 交给用户。页面包含「设计工坊」与「作品画廊」两个标签页：设计工坊里左侧素材库每款食材均为 **官方产品图**，点选即把该食材加入中央的 **实时 3D 预览**（每项以官方照片布告板在轨道场景里按官方规范顺序呈现），右侧实时营养/价格聚合，并可点「⬆ 按官方规范排序」；画廊里每款作品也以官方产品图并排呈现，可投票与「载入」回工坊。
-- **模式 2 · 离线 3D 展示**：直接用浏览器打开 `assets/demo3d.html`（已内联真实素材数据），查看多款 3D 汉堡作品，适合快速演示/评审，无需启动服务。
-- **模式 3 · 对话式设计（无浏览器）**：Agent 直接引导用户选择素材编码/名称，调用 `assets/burger_renderer.py` 的 `render_burger_svg(codes)` 生成 2D SVG 预览，写入 `*.svg`/HTML；把作品追加到 `gallery/gallery.json`（结构见下）并用 `present_files` 展示；投票则更新对应作品的 `votes`/`voters`。
-
-### 步骤 C：画廊数据结构（与网页服务共用）
-```json
-{
-  "designs": [
-    {
-      "id": "d<时间戳>",
-      "name": "麦门至尊塔",
-      "author": "正浩",
-      "created_at": "2026-10-20 12:00",
-      "layers": ["1440", "521903", "9900016076"],
-      "votes": 3,
-      "voters": ["小明", "小红", "阿杰"]
-    }
-  ]
-}
+```bash
+python scripts/run.py          # 自动挑端口 → 探活成功 → 打印访问地址
 ```
-- `layers` 为从下到上的麦当劳素材编码（来自 `materials.json`）。
-- 投票时把投票人昵称加入 `voters` 并 `votes = len(voters)`；同一昵称不可重复投票。
 
-## 组件级 3D 设计（2D→3D 转化 + 食材分离）⭐ 进阶能力
-针对"界面只展示套餐整体、无法单独设计单汉堡、无法分离食材"的痛点，本 Skill 额外提供组件级 3D 设计工作室（`assets/burger_components_3d.html`，服务路由 `/components`），两种模式：
-1. **单品模式（官方图转 3D）**：用 `assets/img2mesh.js` 把每个官方透明 PNG 转为 **带倒角的恒定厚度立体切片**（受光 `MeshStandardMaterial` + 官方贴图 UV），旋转时呈现真实体积与光影（不再是纸片或鼓包）；每个官方单品成为可独立旋转/摆放的实体，点击即加入场景、可叠加多个，**打破套餐绑定**。
-2. **组件模式（汉堡拆解设计）**：用 `assets/components3d.js` 把汉堡拆成 **可分离的组件 3D 模型**（面包胚上/下、牛肉饼、鸡排、鱼排、芝士片、生菜、番茄、洋葱圈、酸黄瓜、酱料、培根、煎蛋）——采用**高保真食物几何**重建（细分曲面 + 顶点噪声 + 芝麻/面包糠/焦痕/融化下垂等真实表面细节），每个组件独立生成、可单独删除/重排/自由组合，并按 `official_composition.json` 的官方规范顺序堆叠（一键"经典巨无霸"预设）。
+输出形如：
 
-**3D 方法选型（已换代）**：早期用"布告板纸片 + 圆顶鼓包挤出 + 彩色积木"三种伪 3D，观感差；现已统一为**受光实体几何**——单品走"带倒角恒厚立体切片"（保留官方贴图），组件走"高保真程序化食物几何"。生成式 image-to-3D（Tripo/Meshy）需云端 API、深度估计需 PyTorch+GPU，本环境暂不可用，故采用纯几何可落地方案；若后续接入远程 GPU 可升级为生成式。
-**组件分离的现实约束**：麦当劳官方菜单只有成品/套餐粒度单品、无组件级素材图，故官方成品图走 image-to-3D 立体切片；内部组件按"已调研官方形态+官方配色"做高保真程序化重建，使食材可被独立编辑。
+```
+🍔 麦当劳「真」随心配 已启动
+   本机访问: http://127.0.0.1:8765
+   局域网访问: http://192.168.1.23:8765   (同一 WiFi 下其他设备可直接打开投票)
+```
 
-## 设计原则 / 边界
-- 仅使用麦当劳**真实在售**素材，不臆造不存在的单品；价格/营养以 MCP 实时或快照数据为准。
-- 鼓励创新组合：汉堡、小食、甜品、饮料皆可叠进同一座「汉堡塔」，越有创意越好。
-- 非官方产品，仅供娱乐/创意展示；餐品供应、价格以麦当劳官方实时渠道为准（见 CONTEST_DECLARATION.md）。
+Agent 拿到地址后**直接把 URL 交给用户**，并说明三个标签页各自能做什么。服务需常驻，用后台方式拉起。
 
-## 文件结构
-- `SKILL.md`：本技能定义
-- `assets/materials.json`：分类素材库（MCP 真实数据快照）
-- `assets/burger3d.js`：官方素材 3D 引擎 v3.0（Three.js；全部产品以官方产品图布告板呈现，零自定义/占位几何与贴图，按官方规范排序）
-- `assets/img2mesh.js`：2D→3D 工具（官方透明 PNG → 带倒角恒厚立体切片，受光 MeshStandardMaterial，带贴图 UV）
-- `assets/components3d.js`：可分离汉堡组件 3D 模型库 v2（高保真食物几何：细分+噪声+芝麻/面包糠/焦痕/融化；独立生成、按官方规范排序堆叠）
-- `assets/official_composition.json`：官方构造/排序规范（分类 priority + 巨无霸等经典汉堡组成顺序）
-- `assets/mcd_photos/`：123 款官方产品图（透明 PNG，官方素材唯一来源）
-- `assets/burger_studio_3d.html`：3D 网页工作室前端（设计 + 画廊 + 投票）
-- `assets/burger_components_3d.html`：组件级 3D 设计工作室（官方图转 3D + 组件分离/自由组合）
-- `assets/vendor/`：本地化 Three.js r128 + OrbitControls（离线可用）
-- `assets/burger_renderer.py` / `assets/burger_studio.html` / `assets/demo.html`：旧版 2D SVG 方案（保留对照）
-- `assets/demo3d.html`：离线官方图展示页（内联 123 款官方素材 + 种子作品，双击即开，2D 官方图呈现）
-- `scripts/studio_server.py`：零依赖本地服务（REST：素材/渲染/发布/投票）
-- `scripts/fetch_menu.py` / `scripts/build_materials.py`：开发期从 MCP 生成素材库
-- `gallery/gallery.json`：作品与投票持久化存储
-- `README.md` / `MCP_INTEGRATION.md` / `CONTEST_DECLARATION.md` / `mcp-config.example.json`：参赛交付文件
+---
+
+## 二、三个标签页（页面即全部功能）
+
+| 标签 | 用户能做什么 | 关键交互 |
+|---|---|---|
+| 🍱 **套餐搭配** | 从 7 组货架挑官方单品放进托盘，自由组合成自定义套餐 | 点卡片加入；托盘内每项有 `−` `+` `✕`，份数上限 9、整单上限 30；右栏实时聚合**实付价 / 热量 / 蛋白 / 脂肪 / 碳水 / 钠** |
+| 🧩 **汉堡设计** | 在 3D 场景里逐层叠汉堡，19 种组件随便加、随便删、随便换序 | 14 款经典汉堡可一键载入官方层序；拖拽旋转、滚轮缩放；相机按堆叠总高自动取景 |
+| 🏆 **作品画廊** | 浏览全部作品、按票数排名、给喜欢的作品投票 | 按昵称去重投票；卡片可「载入」回到对应模式继续改；点图看大图 |
+
+两种模式都能**发布**：前端用 canvas 把官方单品图合成为预览图（3D 模式直接截取渲染画面），
+`POST /api/designs` 落盘到 `gallery/`，随后出现在画廊里参与排名。
+
+移动端（≤1024px）：底部标签栏 + 底部抽屉选单品 + 圆形浮动「选单品」按钮（滚动到发布卡时自动淡出，避免遮挡）。
+
+**自检钩子**：打开 `http://127.0.0.1:8765/?selftest=1` 会自动合成一张预览图并试发布一条作品，用于验证链路。
+
+---
+
+## 三、HTTP 接口（6 个，全部零鉴权本地调用）
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | `/` | 主应用（单文件 SPA） |
+| GET | `/api/ping` | 探活，返回 `{"ok":true,"time":...}` |
+| GET | `/api/materials` | 素材库全量 JSON（119 项，含价格/营养/官方图路径/是否可单点） |
+| GET | `/api/gallery` | 全部作品，按票数降序 |
+| POST | `/api/designs` | 发布作品：`{name, author, mode:"combo"\|"component", items\|layers, labels, summary, preview}` |
+| POST | `/api/vote` | 投票：`{id, voter}`；同一昵称重复投返回 **409** |
+
+静态资源走 `/assets/*` 与 `/gallery/*`，路径被限制在项目根目录内（越界返回 403）。
+
+---
+
+## 四、数据资产（全部已入库，离线可用）
+
+| 资产 | 数量 | 用途 |
+|---|---|---|
+| `assets/materials.json` | 119 项（63 项可单点） | 唯一数据源：编码、名称、分组、价格、营养、官方图路径 |
+| `assets/mcd_photos/` | **127 张**官方透明 PNG | 2D 货架卡片 + 托盘缩略图 + 发布预览合成 |
+| `assets/components3d.js` | **19 种**程序化组件 | 面包胚上/下、牛肉饼、鸡排、板烧鸡腿排、鱼排、虾仁、培根、煎蛋、芝士片、生菜、番茄片、洋葱圈、酸黄瓜、酱料、薯条、麦乐鸡、派、冰淇淋 |
+| `assets/burger_components_3d.html` | **14 套**官方层序 | 巨无霸/双层吉士/麦香鸡/麦香鱼/板烧/安格斯等一键还原 |
+| `assets/mcd_component_models/` | 13 个 GLB | 组件模型的真实几何备份，供后续替换程序化几何（**当前前端未加载**） |
+| `assets/vendor/` | three.min.js + OrbitControls.js + GLTFLoader.js | 本地化 Three.js r128，免 CDN |
+
+7 组货架分组：汉堡 14 · 炸鸡 8 · 小食 8 · 甜品冰品 9 · 饮品 13 · 麦咖啡 9 · 蘸酱 2。
+
+> **诚实说明**：3D 组件当前由 `components3d.js` 程序化生成（细分曲面 + 顶点噪声 + 芝麻/焦痕/融化细节），
+> 不是官方 3D 模型；`GLTFLoader.js` 与 `mcd_component_models/*.glb` 已就位但尚未接入加载流程。
+> 官方只提供成品/套餐粒度的图，没有组件级素材，这是能力边界，不是 bug。
+
+---
+
+## 五、麦当劳 MCP 集成（4 个工具）
+
+服务名 `mcd-mcp`，streamablehttp，`https://mcp.mcd.cn`，鉴权头见 `mcp-config.example.json`（`MCD_MCP_TOKEN` 占位，**永不入库真实值**）。
+
+| 工具 | 关键参数 | 拿到什么 |
+|---|---|---|
+| `query-nearby-stores` | `beType=1, searchType=2, city, keyword` | `storeCode` |
+| `query-meals` | `storeCode, orderType=1, beType=1` | 在售菜单：分类、餐品编码、名称、图片、价格 |
+| `query-meal-detail` | `storeCode, orderType=1, beType=1, code` | 单品官方组成（用于还原真实分层，如巨无霸=双层牛肉+芝士+生菜+酸黄瓜+洋葱+酱+三层包） |
+| `list-nutrition-foods` | — | 热量/蛋白/脂肪/碳水/钠/钙 |
+
+刷新素材：`python scripts/refresh_menu_from_mcp.py --token $MCD_MCP_TOKEN`
+（已落盘快照 `assets/menu_snapshot_20261023.json`，门店 1450713 上海黄浦华旭国际大厦餐厅，2026-10-23 14:22）
+加 `--no-download` 只重建索引不下载图片。
+
+**降级**：MCP 不可用 / 离线评审 / 容器无外网时，一律回落 `assets/materials.json` 快照（同源真实数据），
+功能零损失——只是菜单停留在快照时点，不再是"此刻在售"。
+
+---
+
+## 六、Agent 执行流程（照做即可，不要自由发挥）
+
+1. **探活**：`python scripts/run.py --check` 看依赖与资产是否齐全（不启服务）。
+2. **启动**：后台运行 `python scripts/run.py --port 8765`，等它打印 URL（内部已轮询 `/api/ping`）。
+3. **交付链接**：把 `http://127.0.0.1:<端口>` 发给用户，并附一句"三个标签分别做什么"。
+4. **接需求**：用户说"30 元以内""不要牛肉""来个巨无霸改版"时，从 `/api/materials` 读数据做筛选，
+   直接给出具体组合（名称 + 编码 + 价格 + 热量合计），而不是让用户自己找。
+5. **要投票**：提示用户把「局域网访问」地址发给同一 WiFi 下的其他人；或直接对 `/api/vote` 代投。
+6. **收尾**：需要复核交付质量时跑 `python scripts/selfcheck.py`（8 项断言，不依赖网络）。
+
+> 只有在用户明确要求"刷新菜单/换门店/看实时价格"时才调用 MCP；否则**默认走快照**，避免无谓外部依赖。
+
+---
+
+## 七、配置项（命令行参数优先，其次环境变量，最后默认值）
+
+| 键 | 默认 | 说明 |
+|---|---|---|
+| `--port` / `PORT` | `8765` | 被占用时 `run.py` 自动顺延，最多试 20 个 |
+| `--host` / `HOST` | `127.0.0.1` | 需局域网投票时用 `0.0.0.0`（`run.py --lan` 快捷开关） |
+| `--no-open` | 关 | 默认启动后尝试用系统浏览器打开，CI/无头环境加此参数 |
+| `MCD_MCP_TOKEN` | 空 | 仅刷新素材时需要 |
+| `STORE_CODE` | `1450713` | 默认门店；换城市先用 `query-nearby-stores` 取 |
+| `OFFLINE` | `0` | `1` 表示永不调用 MCP，只读快照 |
+| Python | ≥3.8 | 零第三方依赖 |
+
+---
+
+## 八、文件结构（只列真实存在且被引用的）
+
+```
+SKILL.md                          ← 本文件，唯一权威说明
+README.md                         ← 参赛说明 + 安装为 Skill
+MCP_INTEGRATION.md                ← MCP 调用细节与证据
+CHANGELOG.md                      ← 版本记录
+LICENSE / CONTEST_DECLARATION.md  ← 许可与参赛声明
+mcp-config.example.json           ← MCP 连接器配置模板
+scripts/
+  run.py                          ← 一键启动（探端口 → 起服务 → 探活 → 打印 URL）
+  selfcheck.py                    ← 交付前 8 项断言
+  studio_server.py                ← HTTP 服务本体（零依赖）
+  refresh_menu_from_mcp.py        ← 从 MCP 重建 materials.json
+  seed_gallery.py                 ← 预置画廊作品
+  build_materials.py / fetch_menu.py / mcp_*.py   ← 开发期 MCP 探索脚本
+assets/
+  burger_components_3d.html       ← 前端单文件 SPA（三标签）
+  components3d.js                 ← 19 种程序化组件几何
+  materials.json                  ← 素材库快照
+  mcd_photos/                     ← 127 张官方产品图
+  mcd_component_models/           ← 13 个组件 GLB（备用）
+  vendor/                         ← three.min.js / OrbitControls.js / GLTFLoader.js
+gallery/gallery.json              ← 作品与投票持久化
+references/                       ← 渐进披露：MCP 细节 / 数据结构 / 用户旅程 / 排障
+examples/prompts.md               ← 3 条示例指令 → 期望行为
+```
+
+---
+
+## 九、边界与合规
+
+- **只用真实在售单品**，不臆造麦当劳不存在的 SKU；价格/营养以 MCP 或快照为准，页面标注"仅供参考"。
+- **图片版权归麦当劳所有**，仅用于本次大赛演示；本项目非官方产品，不代表麦当劳立场。
+- 组件级 3D 是**程序化重建**（依据官方成品形态与配色），用于让食材可被独立编辑，不等于官方配方。
+- 不采集用户隐私：昵称仅存于本地 `gallery/gallery.json`，不上传任何服务器。
+
+---
+
+## 十、排障速查
+
+| 现象 | 原因 | 处理 |
+|---|---|---|
+| 端口被占用 | 上一次服务没退 | `run.py` 会自动顺延；或 `--port 8766` |
+| 页面白屏 | 直接双击 HTML 打开（缺 `/assets/` 路由） | 必须经 HTTP 访问，不能 `file://` |
+| 3D 区域空白 | WebGL 被禁用 / 无 GPU | 换 Chrome/Edge；虚拟机开软件渲染 |
+| 图片 404 | 只拷贝了 HTML 没拷 `assets/` | 整目录使用，勿单文件搬运 |
+| 发布成功但画廊没图 | 预览图超 6MB 被丢弃 | 正常现象，卡片会显示占位块 |
+
+更多见 `references/troubleshooting.md`。
