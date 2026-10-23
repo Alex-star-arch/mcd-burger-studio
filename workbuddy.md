@@ -15,7 +15,7 @@
 | 开发工具 | **腾讯 WorkBuddy 桌面版 · Agent 模式**（全程，无其他 IDE 参与编码） |
 | 开发周期 | 2026-10-20 12:11 → 2026-10-23 16:00（约 4 天，含 3 次大版本重构） |
 | 使用的麦当劳 MCP | `mcd-mcp`（Streamable HTTP，`https://mcp.mcd.cn`），35 个工具可访问，实际调用 4 个 |
-| 项目仓库 | `https://github.com/Alex-star-arch/{{REPO_NAME}}`（公开） |
+| 项目仓库 | `https://github.com/Alex-star-arch/mcd-burger-studio`（公开） |
 
 ---
 

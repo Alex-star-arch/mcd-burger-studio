@@ -32,12 +32,12 @@
 ```
 【参赛申请】
 项目名称：麦当劳「真」随心配
-项目地址：https://github.com/Alex-star-arch/{{REPO_NAME}}
+项目地址：https://github.com/Alex-star-arch/mcd-burger-studio
 项目简介：把麦当劳 MCP 的真实在售菜单变成可自由拼装的素材：63 项可单点商品自由组合成自定义套餐，实时聚合价格与热量/蛋白/脂肪/碳水/钠（官方未公开营养的明确标注不臆测）；14 款在售汉堡可一键载入官方组成并做 3D 拆层设计；套餐与 3D 汉堡都能一键发布到共享画廊，供他人浏览与投票打榜。零依赖 Python 服务起在本机，同一 WiFi 下即可多人同时创作与互投，适合门店活动、社团团建与课堂演示。项目全程由腾讯 WorkBuddy 的 Agent 模式开发，并真实调用 query-nearby-stores / query-meals / query-meal-detail / list-nutrition-foods 四个 MCP 工具。
 ```
 
-> 把 `{{REPO_NAME}}` 替换为实际仓库名（推送完成后填写）。
-> 提交前请先在浏览器里打开该链接，确认**未登录状态也能访问**（即 Public）。
+> 仓库已创建并推送完成：`https://github.com/Alex-star-arch/mcd-burger-studio`（Public，默认分支 `main`）。
+> 提交前请先在无痕窗口打开该链接，确认**未登录状态也能访问**。
 
 ---
 
@@ -51,10 +51,10 @@
 | 4 | 包含 `mcp-config.example.json`（仅环境变量占位） | ✅ | 只有 `${MCD_MCP_TOKEN}`，无真实 Token |
 | 5 | 包含 `workbuddy.md`（WorkBuddy 专项必需） | ✅ | 含时间线、逐字对话节选、工具调用、证据索引 |
 | 6 | 包含源代码 | ✅ | `assets/*.html|js`、`scripts/*.py` |
-| 7 | 仓库公开可访问 | ⬜ 推送后确认 | 无痕窗口访问仓库 URL |
+| 7 | 仓库公开可访问 | ✅ 206 个文件已推送 | 无痕窗口访问仓库 URL |
 | 8 | 真实使用麦当劳 MCP | ✅ | `assets/*_raw.json` 原始返回可核验 |
 | 9 | 真实使用腾讯 WorkBuddy | ✅ | `workbuddy.md` + `.workbuddy/memory/` 开发日志 |
-| 10 | 项目创建时间在允许区间 | ⬜ 创建仓库时确认 | 仓库创建于 2026-10 月 |
+| 10 | 项目创建时间在允许区间 | ✅ 2026-10-23 创建 | 仓库创建于 2026-10 月 |
 | 11 | 内容合规（无敏感/侵权/恶意代码） | ✅ | 仅官方公开素材 + 原创代码；无外链风险内容 |
 
 ---
