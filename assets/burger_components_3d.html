@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#DA291C">
+<meta name="description" content="麦当劳「真」随心配 —— 用官方在售单品自由搭配专属套餐，或用 3D 组件设计创意汉堡，发布作品与大家投票打榜。">
+<title>麦当劳「真」随心配 · 官方单品搭配 · 3D 汉堡设计 · 投票画廊</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%94%3C/text%3E%3C/svg%3E">
+<style>
+/* =========================================================
+ * 设计系统
+ * =======================================================*/
+:root{
+  --red:#DA291C; --red-2:#B71C12; --red-3:#F04437;
+  --gold:#FFC72C; --gold-2:#F0A800; --gold-3:#FFD75E;
+  --ink:#2A1C10; --ink-2:#57432F; --mut:#8E7B66;
+  --cream:#FFF9F1; --cream-2:#FFF1DC;
+  --line:#EFE1CD; --line-2:#F6ECDC;
+  --ok:#2E9E5B;
+  --h:66px;
+  --sh-1:0 1px 2px rgba(96,62,18,.05), 0 2px 10px rgba(96,62,18,.05);
+  --sh-2:0 8px 24px rgba(150,98,24,.10);
+  --sh-3:0 18px 44px rgba(150,98,24,.16);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Source Han Sans SC",system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1100px 560px at 6% -12%, #FFF4E0 0%, rgba(255,244,224,0) 62%),
+    radial-gradient(900px 520px at 102% -6%, #FFEED0 0%, rgba(255,238,208,0) 58%),
+    var(--cream);
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  font-variant-numeric:tabular-nums;
+}
+body.lock{overflow:hidden}
+button,input{font-family:inherit}
+:focus-visible{outline:2px solid #F0B429;outline-offset:2px}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#E4D2B6;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#D6BE99}
+::-webkit-scrollbar-track{background:transparent}
+
+/* =========================================================
+ * 顶栏
+ * =======================================================*/
+header{
+  height:var(--h); padding:0 20px; display:flex; align-items:center; gap:14px;
+  background:rgba(255,252,246,.88);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  backdrop-filter:blur(16px) saturate(1.4);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:60;
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{
+  width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:20px;
+  background:linear-gradient(160deg,var(--gold-3),var(--gold-2));
+  box-shadow:0 6px 14px rgba(240,168,0,.32), inset 0 1px 0 rgba(255,255,255,.7);
+}
+.btxt{min-width:0}
+header h1{
+  margin:0; font-size:19px; font-weight:900; letter-spacing:-.3px; line-height:1.2; white-space:nowrap;
+}
+header h1 .q{color:var(--red);position:relative;padding:0 1px}
+header h1 .q::after{
+  content:"";position:absolute;left:1px;right:1px;bottom:1px;height:5px;border-radius:3px;
+  background:linear-gradient(90deg,rgba(255,199,44,.55),rgba(255,199,44,.18));z-index:-1;
+}
+.bsub{margin:2px 0 0;font-size:11px;color:var(--mut);font-weight:500;white-space:nowrap}
+.seg{
+  margin-left:auto; display:flex; gap:4px; padding:4px; border-radius:14px;
+  background:#F7EDDE; border:1px solid var(--line);
+}
+.seg button{
+  border:0; background:transparent; padding:9px 16px; border-radius:10px; cursor:pointer;
+  font-size:13.5px; font-weight:700; color:var(--ink-2); display:flex; align-items:center; gap:6px;
+  transition:background .18s,color .18s,box-shadow .18s; white-space:nowrap;
+}
+.seg button:hover{background:rgba(255,255,255,.62);color:var(--ink)}
+.seg button.on{background:#fff;color:var(--red);box-shadow:var(--sh-1)}
+.seg button.on span{transform:scale(1.08)}
+
+/* =========================================================
+ * 三栏工作区
+ * =======================================================*/
+.wrap{
+  display:grid; grid-template-columns:288px minmax(0,1fr) 340px;
+  height:calc(100dvh - var(--h)); overflow:hidden;
+}
+
+/* ---------- 左栏：货架 ---------- */
+.left{
+  background:#fff; border-right:1px solid var(--line); overflow:auto;
+  padding:14px 14px 30px; min-width:0;
+}
+.drawerTop{display:none;position:sticky;top:-14px;z-index:3;background:#fff;height:24px;margin:-14px -14px 6px;
+  padding:14px 14px 0}
+.dHandle{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:44px;height:4px;border-radius:99px;background:#E6D6BC}
+.dClose{position:absolute;right:12px;top:2px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);
+  background:#FFF8EC;color:var(--ink-2);font-size:13px;cursor:pointer;line-height:1}
+.dFoot{display:none}
+.secHead{display:flex;align-items:center;gap:8px;margin:2px 0 7px}
+.secHead h3{margin:0;font-size:13.5px;font-weight:900;letter-spacing:.2px;color:var(--ink)}
+.secTag{
+  font-size:10px;font-weight:800;color:#9A6B12;background:#FFF1D9;
+  border:1px solid #F6DFB8;border-radius:999px;padding:1px 7px;white-space:nowrap;
+}
+.left h3{font-size:13.5px;margin:2px 0 7px;font-weight:900;color:var(--ink)}
+.left .hint{font-size:11.5px;color:var(--mut);margin:0 0 10px;line-height:1.6}
+#search{
+  width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:11px; font-size:12.5px;
+  margin-bottom:10px; background:#FFFDF9; color:var(--ink); transition:.15s;
+}
+#search::placeholder{color:#B6A48C}
+#search:focus{outline:none;border-color:#F0BE5A;box-shadow:0 0 0 3px rgba(255,199,44,.18);background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chips button{
+  border:1px solid var(--line); background:#FFFCF6; border-radius:999px; padding:5px 11px; font-size:11.5px;
+  cursor:pointer; color:var(--ink-2); font-weight:600; transition:.15s; white-space:nowrap;
+}
+.chips button:hover{border-color:#F3C86A;color:var(--ink);background:#FFF6E6}
+.chips button.on{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 3px 10px rgba(42,28,16,.2)}
+.shelf{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pitem{
+  border:1px solid var(--line-2); border-radius:14px; padding:8px 6px 9px; cursor:pointer; text-align:center;
+  background:#fff; transition:transform .16s,box-shadow .16s,border-color .16s; position:relative;
+}
+.pitem:hover{transform:translateY(-3px);border-color:#F3C86A;box-shadow:var(--sh-2);z-index:1}
+.pitem:active{transform:translateY(-1px) scale(.99)}
+.pitem img{
+  width:100%; height:58px; object-fit:contain; display:block;
+  filter:drop-shadow(0 5px 6px rgba(120,70,10,.13)); transition:transform .18s;
+}
+.pitem:hover img{transform:scale(1.05)}
+.pitem .pn{
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  font-size:11px; line-height:1.32; height:29px; margin-top:5px; color:var(--ink-2); font-weight:600;
+}
+.pitem .pp{display:block;font-size:12.5px;color:var(--red);font-weight:800;margin-top:2px;letter-spacing:-.2px}
+.pitem .badge{
+  position:absolute;top:6px;right:6px;min-width:19px;font-size:10px;font-weight:800;
+  background:linear-gradient(160deg,var(--red-3),var(--red));color:#fff;border-radius:999px;padding:1px 5px;
+  box-shadow:0 3px 8px rgba(218,41,28,.35);border:1.5px solid #fff;
+}
+.bshelf{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:4px;max-height:188px;overflow:auto}
+.bitem{border:1px solid var(--line-2);border-radius:11px;padding:4px 3px;cursor:pointer;text-align:center;background:#fff;transition:.15s}
+.bitem:hover{border-color:#F3C86A;background:#FFFCF4;transform:translateY(-2px)}
+.bitem img{width:100%;height:38px;object-fit:contain}
+.bitem span{display:block;font-size:9.5px;line-height:1.22;height:24px;overflow:hidden;color:var(--ink-2)}
+.preset{display:flex;gap:6px;margin:8px 0 10px}
+.preset button{
+  flex:1;font-size:11.5px;padding:7px 4px;border:1px solid var(--line);background:#FFFDF9;
+  border-radius:9px;cursor:pointer;font-weight:700;color:var(--ink-2);transition:.15s;
+}
+.preset button:hover{background:#FFF4E2;border-color:#F3C86A;color:var(--red)}
+
+/* ---------- 中栏：预览 ---------- */
+.center{
+  position:relative; min-width:0; overflow:hidden;
+  background:radial-gradient(1100px 660px at 50% 12%,#FFFDF9 0%,#F9EBD6 64%,#F1DABA 100%);
+}
+#cv{width:100%;height:100%;display:block}
+.center .ov{
+  position:absolute; top:14px; left:14px; right:14px; font-size:12px; color:#8A6F4B; line-height:1.5;
+  background:rgba(255,255,255,.86); border:1px solid rgba(240,225,205,.9);
+  padding:8px 13px; border-radius:12px; max-width:min(560px,72%);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); box-shadow:var(--sh-1);
+}
+footer#hint{
+  position:absolute; bottom:10px; right:14px; font-size:10.5px; color:#A08A70;
+  background:rgba(255,255,255,.75); padding:3px 9px; border-radius:999px;
+  border:1px solid rgba(240,225,205,.8); pointer-events:none;
+}
+body.mode-combo footer#hint{display:none}
+
+/* ---------- 2D 托盘 ---------- */
+.tray{position:absolute;inset:0;overflow:auto;padding:60px 24px 32px;display:none}
+.tray.on{display:block}
+.trayCard{
+  background:linear-gradient(180deg,#FFFDFA,#FFF6E8); border:1px solid #EEDCBE; border-radius:24px;
+  box-shadow:var(--sh-3); padding:20px 22px 23px; max-width:880px; margin:0 auto;
+}
+.trayHead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px dashed #E7D4B4;padding-bottom:13px;margin-bottom:16px}
+.trayHead .tnm{font-size:21px;font-weight:900;letter-spacing:.1px;line-height:1.25}
+.trayHead .tcnt{
+  font-size:11.5px;color:#9A6B12;font-weight:700;background:#FFF1D9;border:1px solid #F6DFB8;
+  border-radius:999px;padding:3px 11px;
+}
+.tsec{margin-bottom:16px}
+.tsec h4{
+  margin:0 0 10px; font-size:11px; color:#A98457; letter-spacing:2.4px; font-weight:800;
+  display:flex;align-items:center;gap:7px;
+}
+.tsec h4::before{content:"";width:3px;height:11px;border-radius:2px;background:var(--gold-2)}
+.tgrid{display:flex;flex-wrap:wrap;gap:11px}
+.tile{
+  width:124px; border:1px solid var(--line-2); border-radius:16px; background:#fff; padding:9px 7px 10px;
+  position:relative; text-align:center; transition:transform .16s,box-shadow .16s,border-color .16s;
+  box-shadow:0 1px 2px rgba(120,80,20,.04);
+}
+.tile:hover{box-shadow:var(--sh-2);border-color:#F3C86A;transform:translateY(-2px)}
+.tile img{width:100%;height:76px;object-fit:contain;display:block;margin:0 auto;
+  filter:drop-shadow(0 6px 7px rgba(120,70,10,.13))}
+.tile .tn{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:11px;line-height:1.3;height:29px;margin-top:4px;color:var(--ink-2);font-weight:600;
+}
+.tile .tp{display:block;font-size:12.5px;color:var(--red);font-weight:800;margin-top:2px}
+.tile .q{
+  position:absolute;top:-9px;right:-9px;background:linear-gradient(160deg,var(--red-3),var(--red));
+  color:#fff;font-size:11px;font-weight:800;border-radius:999px;min-width:24px;padding:2px 7px;
+  box-shadow:0 3px 9px rgba(218,41,28,.32);border:2px solid #fff;
+}
+.tile .st{display:flex;gap:4px;margin-top:7px;justify-content:center}
+.tile .st button{
+  border:1px solid var(--line);background:#FFFBF3;border-radius:8px;width:28px;height:22px;
+  font-size:12px;cursor:pointer;color:#8A6224;line-height:1;transition:.14s;
+}
+.tile .st button:hover{background:#FFE9C4;border-color:#F0C171;color:var(--red)}
+.trayEmpty{color:var(--mut);text-align:center;font-size:13.5px;padding:70px 10px;line-height:2}
+.trayEmpty b{display:block;font-size:17px;color:var(--ink-2);margin-bottom:6px}
+.mAdd{
+  display:none;align-items:center;gap:4px;border:1px solid #F3C86A;background:#FFF6E6;color:var(--red);
+  border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:800;cursor:pointer;white-space:nowrap;
+}
+.mAdd{margin-left:auto}
+.mAdd:active{background:#FFE9C4}
+
+/* ---------- 右栏：清单 ---------- */
+.right{
+  background:#fff; border-left:1px solid var(--line); padding:14px 14px 16px;
+  display:flex; flex-direction:column; min-height:0; overflow:hidden;
+}
+.phead{display:flex;align-items:center;gap:8px;margin:2px 0 11px;flex:none}
+.phead h3{font-size:14px;margin:0;font-weight:900;color:var(--ink)}
+.pcount{
+  margin-left:auto;font-size:11px;font-weight:800;color:#9A6B12;background:#FFF1D9;
+  border:1px solid #F6DFB8;border-radius:999px;padding:2px 9px;white-space:nowrap;
+}
+.rlist{flex:1;min-height:0;overflow:auto;padding-right:3px}
+.row{
+  display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:12px;
+  padding:7px 9px;margin-bottom:7px;background:#fff;font-size:12.5px;transition:.15s;
+}
+.row:hover{border-color:#F3C86A;background:#FFFCF6}
+.row img{width:34px;height:32px;object-fit:contain;flex:none;filter:drop-shadow(0 3px 4px rgba(120,70,10,.13))}
+.row .nm{flex:1;min-width:0;line-height:1.32;font-weight:600;color:var(--ink)}
+.row .nm i{display:block;font-style:normal;font-size:10.5px;color:var(--mut);font-weight:500;margin-top:2px}
+.row .pr{font-size:12px;color:var(--red);font-weight:800;flex:none}
+.row .ctl{display:flex;gap:3px;flex:none}
+.row .ctl button{
+  border:1px solid var(--line);background:#FFFBF3;border-radius:7px;width:22px;height:22px;
+  font-size:12px;cursor:pointer;line-height:1;padding:0;color:#8A6224;transition:.14s;
+}
+.row .ctl button:hover{background:#FFE9C4;border-color:#F0C171;color:var(--red)}
+.rhint{font-size:10.5px;color:var(--mut);margin:6px 0 10px;line-height:1.55;flex:none}
+.layer{
+  display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:11px;
+  padding:6px 7px;margin-bottom:6px;background:#fff;transition:.15s;
+}
+.layer:hover{border-color:#F3C86A;background:#FFFCF6}
+.layer .idx{
+  width:19px;height:19px;border-radius:6px;background:#FFF1D9;color:#9A6B12;font-size:10px;font-weight:800;
+  display:grid;place-items:center;flex:none;
+}
+.layer .lnm{
+  flex:1;min-width:0;font-size:12.5px;font-weight:700;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.layer .lc{display:flex;gap:3px;flex:none}
+.layer .lc button{
+  width:24px;height:24px;border:1px solid var(--line);background:#FFFDF9;border-radius:7px;
+  font-size:12px;cursor:pointer;color:#8A6224;line-height:1;padding:0;transition:.14s;
+}
+.layer .lc button:hover{background:#FFE9C4;border-color:#F0C171;color:var(--red)}
+.layer .lc button.del:hover{background:#FFE3DF;border-color:#F3B4AC;color:var(--red)}
+.empty{color:var(--mut);font-size:12px;text-align:center;padding:22px 8px;line-height:1.9}
+
+/* 合计卡 */
+.info{
+  flex:none; margin-top:2px; background:linear-gradient(180deg,#FFFDF8,#FFF3DF);
+  border:1px solid #F0DDBC; border-radius:18px; padding:13px 14px 12px;
+  box-shadow:0 -6px 20px rgba(200,150,60,.08);
+}
+.sumTop{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.sumLbl{font-size:11.5px;font-weight:800;color:var(--mut);letter-spacing:.6px}
+.sumPrice{margin-left:auto;font-size:26px;font-weight:900;color:var(--red);letter-spacing:-1.2px;line-height:1}
+.save{font-size:10.5px;font-weight:800;color:#1E7A45;background:#E7F7EE;border-radius:999px;padding:2px 8px}
+.info .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.info .grid.g4{grid-template-columns:repeat(2,1fr)}
+.info .grid>div{background:#fff;border:1px solid #F4E4C8;border-radius:12px;padding:7px 4px;text-align:center}
+.info .k{display:block;font-size:10px;color:var(--mut);font-weight:600;white-space:nowrap}
+.info .v{display:block;font-size:15.5px;font-weight:900;margin-top:2px;color:var(--ink);letter-spacing:-.4px}
+.info .v i{font-size:9.5px;font-style:normal;color:var(--mut);font-weight:600;margin-left:1px}
+.info .note{font-size:10px;color:var(--mut);margin-top:8px;line-height:1.55}
+
+/* 发布 */
+.pubForm{
+  flex:none; margin-top:11px; background:#fff; border:1px solid var(--line); border-radius:16px;
+  padding:12px; box-shadow:var(--sh-1);
+}
+.pubForm .pt{
+  font-size:12px;font-weight:900;color:var(--ink);margin:0 0 9px;
+  display:flex;align-items:center;gap:6px;
+}
+.pubForm .pt span{font-size:10px;font-weight:700;color:var(--mut);margin-left:auto}
+.pubForm input{
+  width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;font-size:12.5px;
+  margin-bottom:7px;background:#FFFDF9;transition:.15s;color:var(--ink);
+}
+.pubForm input::placeholder{color:#B6A48C}
+.pubForm input:focus{outline:none;border-color:#F0BE5A;box-shadow:0 0 0 3px rgba(255,199,44,.18);background:#fff}
+.btn{
+  padding:11px;border:none;border-radius:12px;color:#fff;font-weight:900;cursor:pointer;width:100%;
+  font-size:13.5px;letter-spacing:.4px;transition:transform .16s,box-shadow .16s,background .16s;
+  background:linear-gradient(180deg,var(--red-3),var(--red));
+  box-shadow:0 6px 16px rgba(218,41,28,.26);
+}
+.btn:hover{background:linear-gradient(180deg,#F44A3D,#C4231A);transform:translateY(-1px);box-shadow:0 9px 22px rgba(218,41,28,.32)}
+.btn:active{transform:translateY(0);box-shadow:0 4px 12px rgba(218,41,28,.24)}
+.btn[disabled]{opacity:.65;cursor:progress;transform:none}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:12.5px;padding:9px}
+.btn.ghost:hover{background:var(--cream);border-color:#F3C86A}
+
+/* =========================================================
+ * 画廊
+ * =======================================================*/
+.galleryWrap{height:calc(100dvh - var(--h));overflow:auto;padding:26px 26px 72px;display:none}
+.galleryWrap.on{display:block}
+.gTop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;max-width:1280px;margin:0 auto 18px;flex-wrap:wrap}
+.gTop h2{margin:0;font-size:22px;font-weight:900;letter-spacing:-.3px;display:flex;align-items:center;gap:9px}
+.gcount{
+  font-size:11.5px;font-weight:800;color:#9A6B12;background:#FFF1D9;border:1px solid #F6DFB8;
+  border-radius:999px;padding:3px 10px;
+}
+.gTop .hint{margin:6px 0 0;font-size:12px;color:var(--mut);line-height:1.6;max-width:560px}
+.gTools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gTools input{
+  padding:9px 12px;border:1px solid var(--line);border-radius:11px;font-size:12.5px;width:190px;
+  background:#fff;color:var(--ink);transition:.15s;
+}
+.gTools input:focus{outline:none;border-color:#F0BE5A;box-shadow:0 0 0 3px rgba(255,199,44,.18)}
+.gTools button{
+  padding:9px 15px;border:1px solid var(--line);background:#fff;border-radius:11px;cursor:pointer;
+  font-weight:800;font-size:12.5px;color:var(--ink-2);transition:.15s;box-shadow:var(--sh-1);
+}
+.gTools button:hover{background:#FFF6E6;border-color:#F3C86A;color:var(--red)}
+.gGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;max-width:1280px;margin:0 auto}
+.gcard{
+  background:#fff;border:1px solid var(--line-2);border-radius:20px;overflow:hidden;box-shadow:var(--sh-1);
+  display:flex;flex-direction:column;position:relative;transition:transform .18s,box-shadow .18s;
+}
+.gcard:hover{box-shadow:var(--sh-2);transform:translateY(-3px)}
+.grank{
+  position:absolute;top:11px;right:11px;z-index:2;
+  background:linear-gradient(160deg,var(--gold-3),var(--gold-2));color:#5A3800;
+  font-weight:900;font-size:11.5px;padding:3px 10px;border-radius:999px;
+  box-shadow:0 3px 10px rgba(200,140,20,.35);border:1px solid rgba(255,255,255,.6);
+}
+.grank.r1{background:linear-gradient(160deg,#FFE07A,#E09100);color:#4A2E00}
+.grank.r2{background:linear-gradient(160deg,#F2F2F2,#C9CFD6);color:#3C444C}
+.grank.r3{background:linear-gradient(160deg,#FFD9B8,#D08B52);color:#4A2A10}
+.gimg{
+  background:linear-gradient(180deg,#FFFCF6,#FFF3E1);height:210px;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;padding:10px;
+}
+.gimg img{width:100%;height:100%;object-fit:contain;transition:transform .3s}
+.gcard:hover .gimg img{transform:scale(1.03)}
+.gbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.gname{font-weight:900;font-size:15px;display:flex;align-items:center;gap:7px;line-height:1.3}
+.gmode{font-size:10px;font-weight:800;border-radius:7px;padding:2px 7px;background:#FFF1D9;color:#9A6B12;border:1px solid #F6DFB8;flex:none}
+.gmode.c{background:#EAF4FF;color:#2A6EA8;border-color:#CFE4F8}
+.gmeta{font-size:11px;color:var(--mut)}
+.gchips{display:flex;flex-wrap:wrap;gap:4px}
+.gchips span{font-size:10px;background:#FDF6EA;border:1px solid #F2E5CC;color:#8A6A34;border-radius:8px;padding:2px 7px}
+.gnut{font-size:11.5px;color:#8A5A16;background:#FFF8EC;border:1px solid #F8EBD6;border-radius:10px;padding:7px 10px}
+.gvote{
+  margin-top:auto;border:none;border-radius:12px;color:#5A3A00;font-weight:900;font-size:14px;padding:10px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.16s;
+  background:linear-gradient(180deg,#FFD75E,var(--gold));
+  box-shadow:0 4px 14px rgba(240,168,0,.28);
+}
+.gvote:hover{background:linear-gradient(180deg,#FFE07A,#FFB800);transform:translateY(-1px);box-shadow:0 7px 18px rgba(240,168,0,.36)}
+.gvote b{background:rgba(255,255,255,.9);border-radius:999px;padding:1px 9px;font-size:12.5px;color:#8A5A16}
+.gvote.voted{background:#F1E5CE;color:#8A6A2A;cursor:default;box-shadow:none}
+.gvote.voted:hover{transform:none;box-shadow:none;background:#F1E5CE}
+
+/* =========================================================
+ * 提示 / 移动端控件
+ * =======================================================*/
+.toast{
+  position:fixed;left:50%;bottom:30px;transform:translate(-50%,14px);
+  background:rgba(42,28,16,.94);color:#fff;padding:12px 22px;border-radius:999px;font-size:13.5px;font-weight:600;
+  opacity:0;transition:opacity .26s,transform .26s;pointer-events:none;z-index:200;
+  box-shadow:0 14px 34px rgba(0,0,0,.26);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  max-width:min(88vw,520px);text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.tabbar{display:none}
+.fab{display:none}
+.fab.hide{opacity:0;pointer-events:none;transform:scale(.8)}
+.backdrop{
+  display:none;position:fixed;inset:0;background:rgba(42,28,16,.45);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:opacity .26s;z-index:96;
+}
+.backdrop.on{opacity:1;pointer-events:auto}
+
+/* =========================================================
+ * 响应式：窄屏桌面 / 平板
+ * =======================================================*/
+@media (max-width:1180px){
+  .wrap{grid-template-columns:250px minmax(0,1fr) 308px}
+  .tile{width:112px}
+  .tile img{height:68px}
+  .seg button{padding:9px 12px;font-size:13px}
+  header h1{font-size:17.5px}
+  .bsub{display:none}
+}
+
+/* =========================================================
+ * 响应式：移动端（≤1024px）
+ * =======================================================*/
+@media (max-width:1024px){
+  :root{--h:58px}
+  header{padding:0 14px;gap:10px}
+  header h1{font-size:16.5px;letter-spacing:-.2px}
+  .logo{width:34px;height:34px;border-radius:11px;font-size:18px}
+  .seg{display:none}
+
+  .wrap{display:block;height:auto;overflow:visible}
+  /* 左栏 → 底部抽屉 */
+  .left{
+    position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;z-index:97;
+    max-height:84dvh;border-right:0;border-radius:22px 22px 0 0;
+    border-top:1px solid var(--line);box-shadow:0 -20px 50px rgba(60,35,5,.28);
+    transform:translateY(103%);transition:transform .32s cubic-bezier(.32,.72,0,1);
+    padding:14px 14px calc(20px + env(safe-area-inset-bottom));overflow:auto;
+    visibility:hidden;
+  }
+  .left.open{transform:translateY(0);visibility:visible}
+  .drawerTop{display:block;top:-14px;margin:-14px -14px 8px;padding-top:16px}
+  .backdrop{display:block}
+  .dFoot{
+    display:block;position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom));
+    margin:14px -14px calc(-20px - env(safe-area-inset-bottom));
+    padding:12px 14px calc(14px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(255,255,255,.55),#fff 42%);
+  }
+  .dDone{
+    width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer;
+    background:linear-gradient(180deg,var(--red-3),var(--red));color:#fff;font-weight:900;font-size:14px;
+    letter-spacing:.4px;box-shadow:0 8px 20px rgba(218,41,28,.28);
+  }
+  .shelf{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+  .pitem img{height:54px}
+  .bshelf{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));max-height:none}
+  #search{font-size:13px;padding:10px 12px}
+
+  /* 中栏 */
+  .center{height:calc(100dvh - var(--h) - 64px);min-height:430px;max-height:660px}
+  body.mode-combo .center{height:auto;min-height:0;max-height:none}
+  body.mode-combo .tray{position:static;inset:auto;overflow:visible;padding:12px 12px 6px}
+  .center .ov{display:none}
+  footer#hint{display:none}
+  .tray{padding:12px 12px calc(18px + env(safe-area-inset-bottom))}
+  .trayCard{border-radius:18px;padding:14px 13px 16px}
+  .trayHead{padding-bottom:10px;margin-bottom:12px;gap:8px}
+  .trayHead .tnm{font-size:17.5px}
+  .trayHead .tcnt{font-size:10.5px;padding:2px 9px}
+  .tsec{margin-bottom:13px}
+  .tsec h4{font-size:10px;letter-spacing:1.8px;margin-bottom:8px}
+  .tgrid{gap:8px}
+  .tile{width:calc(50% - 4px);padding:8px 6px 9px}
+  .tile img{height:62px}
+  .tile .st button{width:30px;height:24px}
+  .trayEmpty{padding:44px 8px;font-size:12.5px}
+  .trayEmpty b{font-size:15.5px}
+
+  /* 右栏 */
+  .right{
+    height:auto;max-height:none;overflow:visible;border-left:0;border-top:1px solid var(--line);
+    padding:14px 12px calc(118px + env(safe-area-inset-bottom));
+    width:100%;max-width:780px;margin:0 auto;
+  }
+  .rlist{flex:none;overflow:visible;max-height:none}
+  .phead{margin-bottom:10px}
+  .info{margin-top:4px}
+  .pubForm{margin-top:10px}
+  .info .v{font-size:15px}
+  .sumPrice{font-size:24px}
+
+  /* 画廊 */
+  .galleryWrap{height:auto;min-height:calc(100dvh - var(--h) - 64px);padding:16px 12px calc(88px + env(safe-area-inset-bottom))}
+  .gTop{align-items:flex-start;gap:10px;margin-bottom:14px}
+  .gTop h2{font-size:19px}
+  .gTop .hint{font-size:11.5px}
+  .gTools{width:100%}
+  .gTools input{flex:1;width:auto;min-width:0}
+  .gGrid{grid-template-columns:1fr;gap:14px}
+  .gimg{height:186px}
+
+  /* 底部导航 */
+  .tabbar{
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:95;gap:4px;
+    background:rgba(255,252,246,.95);
+    -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+    border-top:1px solid var(--line);
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  }
+  .tabbar button{
+    flex:1;border:0;background:transparent;border-radius:12px;padding:6px 0;cursor:pointer;
+    font-size:10.5px;font-weight:700;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:3px;
+    transition:.16s;
+  }
+  .tabbar button span{font-size:19px;line-height:1}
+  .tabbar button.on{color:var(--red);background:#FFF2E4}
+
+  /* 浮动按钮 */
+  .fab{
+    display:flex;align-items:center;justify-content:center;position:fixed;right:14px;z-index:80;
+    bottom:calc(76px + env(safe-area-inset-bottom));width:54px;height:54px;
+    background:linear-gradient(180deg,var(--red-3),var(--red));color:#fff;border:0;border-radius:50%;
+    padding:0 0 2px;font-size:27px;font-weight:400;line-height:1;cursor:pointer;
+    box-shadow:0 10px 24px rgba(218,41,28,.42);transition:transform .16s,opacity .2s;
+  }
+  .fab:active{transform:scale(.94)}
+  .fab em{display:none}
+  .fab b{
+    position:absolute;top:-4px;right:-4px;background:#fff;color:var(--red);border-radius:999px;
+    min-width:20px;padding:1px 5px;font-size:11px;font-weight:900;line-height:1.5;
+    box-shadow:0 2px 8px rgba(0,0,0,.18);border:1px solid #FFD9C8;
+  }
+  .mAdd{display:inline-flex}
+  .tile{max-width:168px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom));font-size:12.5px;padding:11px 18px}
+}
+
+@media (max-width:400px){
+  header h1{font-size:15.5px}
+  .center{min-height:400px}
+  .tile img{height:60px}
+  .info .grid{grid-template-columns:repeat(2,1fr)}
+  .gimg{height:168px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">🍔</div>
+    <div class="btxt">
+      <h1>麦当劳<span class="q">「真」</span>随心配</h1>
+      <p class="bsub">官方在售单品自由搭配 · 3D 汉堡设计 · 投票打榜</p>
+    </div>
+  </div>
+  <nav class="seg" id="seg">
+    <button id="mCombo" class="on"><span>🍱</span>套餐搭配</button>
+    <button id="mComp"><span>🧩</span>汉堡设计</button>
+    <button id="mGal"><span>🏆</span>作品画廊</button>
+  </nav>
+</header>
+
+<div class="wrap" id="wrap">
+  <div class="left" id="left"></div>
+  <div class="center">
+    <canvas id="cv"></canvas>
+    <div class="tray" id="tray"></div>
+    <div class="ov" id="ov">从左侧点选官方单品，自由拼出一份专属套餐</div>
+    <footer id="hint">拖拽旋转 · 滚轮缩放 · 右键平移</footer>
+  </div>
+  <div class="right" id="right"></div>
+</div>
+
+<div class="galleryWrap" id="galleryWrap">
+  <div class="gTop">
+    <div>
+      <h2>🏆 作品画廊<span class="gcount" id="gCount"></span></h2>
+      <p class="hint">「套餐搭配」与「汉堡设计」作品同台参评 · 每个昵称对每件作品限投一票 · 按票数实时排名</p>
+    </div>
+    <div class="gTools">
+      <input id="voter" placeholder="你的昵称（投票去重）">
+      <button id="gRefresh">🔄 刷新</button>
+    </div>
+  </div>
+  <div class="gGrid" id="gGrid"></div>
+  <div class="empty" id="gEmpty" style="display:none;padding:60px 0">还没有作品，去发布第一个吧 🎉</div>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<button class="fab" id="fab"><span>＋</span><em style="font-style:normal">选单品</em><b id="fabCount"></b></button>
+
+<nav class="tabbar" id="tabbar">
+  <button data-m="combo" class="on"><span>🍱</span>套餐搭配</button>
+  <button data-m="component"><span>🧩</span>汉堡设计</button>
+  <button data-m="gallery"><span>🏆</span>作品画廊</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="/assets/vendor/three.min.js"></script>
+<script src="/assets/vendor/OrbitControls.js"></script>
+<script src="/assets/vendor/GLTFLoader.js"></script>
+<script src="/assets/components3d.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+ * 全局状态
+ * =======================================================*/
+let mode = "combo";          // combo | component | gallery
+let MAT = {materials:[], groups:[], byCode:{}};
+let combo = [];              // 2D 套餐：[{code,qty}]
+let compItems = [];          // 3D 组件：[{kind,obj,h}]
+let BY = {};                 // code -> 官方素材（价格/营养/图片）
+let VOTER_KEY = "mcd_voter";
+let comboTitle = "我的随心配";
+
+/* =========================================================
+ * 通用小工具
+ * =======================================================*/
+function $(id){return document.getElementById(id);}
+function num(v){var f=parseFloat(v);return isNaN(f)?0:f;}
+function toast(msg){
+  var t=$("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("show");},1900);
+}
+function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function getVoter(){
+  var v = localStorage.getItem(VOTER_KEY) || "";
+  if(!v){
+    var inp=$("voter"); v = inp && inp.value.trim();
+    if(!v) v = "麦粉" + Math.floor(Math.random()*9000+1000);
+    localStorage.setItem(VOTER_KEY, v);
+  }
+  return v;
+}
+/* 移动端底部抽屉 */
+function openDrawer(){
+  $("left").classList.add("open");
+  $("backdrop").classList.add("on");
+  document.body.classList.add("lock");
+}
+function closeDrawer(){
+  $("left").classList.remove("open");
+  $("backdrop").classList.remove("on");
+  document.body.classList.remove("lock");
+}
+function isDrawerOpen(){ return $("left").classList.contains("open"); }
+/* 发布卡进入视口时收起浮动按钮，避免遮挡主操作 */
+var pubObs=null;
+function watchPublish(){
+  var el=document.querySelector(".pubForm");
+  if(pubObs){ pubObs.disconnect(); pubObs=null; }
+  if(!el || !window.IntersectionObserver) return;
+  pubObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var f=$("fab"); if(f) f.classList.toggle("hide", e.isIntersecting);
+    });
+  },{threshold:0.2});
+  pubObs.observe(el);
+}
+function updateFab(){
+  var f=$("fab"); if(!f)return;
+  var n = (mode==="combo")
+    ? combo.reduce(function(a,b){return a+b.qty;},0)
+    : compItems.length;
+  var b=f.querySelector("b");
+  if(n>0){ b.textContent=n; b.style.display=""; } else { b.style.display="none"; }
+  f.querySelector("em").textContent = (mode==="combo") ? "选单品" : "加食材";
+}
+
+/* =========================================================
+ * 影棚环境（IBL）+ 背景：给 MeshStandardMaterial 真实光照
+ * =======================================================*/
+let scene,camera,renderer,controls,root,shadowMesh;
+function studioEnv(r){
+  if(!THREE.PMREMGenerator) return null;
+  var c=document.createElement("canvas"); c.width=1024; c.height=512;
+  var x=c.getContext("2d");
+  var g=x.createLinearGradient(0,0,0,512);
+  g.addColorStop(0,"#ffffff"); g.addColorStop(.45,"#f4ede1");
+  g.addColorStop(.72,"#e8d4b1"); g.addColorStop(1,"#b9976b");
+  x.fillStyle=g; x.fillRect(0,0,1024,512);
+  var sg=x.createRadialGradient(512,64,8,512,64,320);
+  sg.addColorStop(0,"rgba(255,255,255,.95)"); sg.addColorStop(1,"rgba(255,255,255,0)");
+  x.fillStyle=sg; x.fillRect(0,0,1024,330);
+  var lg=x.createRadialGradient(130,260,8,130,260,210);
+  lg.addColorStop(0,"rgba(255,246,231,.70)"); lg.addColorStop(1,"rgba(255,246,231,0)");
+  x.fillStyle=lg; x.fillRect(0,0,440,512);
+  var rg=x.createRadialGradient(900,260,8,900,260,210);
+  rg.addColorStop(0,"rgba(255,239,224,.60)"); rg.addColorStop(1,"rgba(255,239,224,0)");
+  x.fillStyle=rg; x.fillRect(600,0,424,512);
+  var tex=new THREE.CanvasTexture(c); tex.mapping=THREE.EquirectangularReflectionMapping;
+  var pmrem=new THREE.PMREMGenerator(r); pmrem.compileEquirectangularShader();
+  var env=pmrem.fromEquirectangular(tex).texture;
+  tex.dispose(); pmrem.dispose();
+  return env;
+}
+function studioBg(){
+  var c=document.createElement("canvas"); c.width=16; c.height=256;
+  var x=c.getContext("2d"), g=x.createLinearGradient(0,0,0,256);
+  g.addColorStop(0,"#fff6e9"); g.addColorStop(.55,"#ffe9c9"); g.addColorStop(1,"#f4cf9a");
+  x.fillStyle=g; x.fillRect(0,0,16,256);
+  var t=new THREE.CanvasTexture(c); if(THREE.sRGBEncoding)t.encoding=THREE.sRGBEncoding; return t;
+}
+function init3D(){
+  var cv=$("cv");
+  scene=new THREE.Scene(); scene.background=studioBg();
+  camera=new THREE.PerspectiveCamera(45,1,0.1,100); camera.position.set(0,3.6,8);
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});
+  renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  if(THREE.sRGBEncoding)renderer.outputEncoding=THREE.sRGBEncoding;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0;
+  var env=studioEnv(renderer); if(env)scene.environment=env;
+  controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true; controls.target.set(0,.9,0);
+  scene.add(new THREE.HemisphereLight(0xffffff,0xc2ad8c,0.50));
+  var key=new THREE.DirectionalLight(0xffffff,2.0); key.position.set(5,9,7); scene.add(key);
+  var fill=new THREE.DirectionalLight(0xfff1e0,0.60); fill.position.set(-6,3,5); scene.add(fill);
+  var rim=new THREE.DirectionalLight(0xffffff,0.50); rim.position.set(0,4,-8); scene.add(rim);
+  root=new THREE.Group(); scene.add(root);
+  shadowMesh=new THREE.Mesh(new THREE.CircleGeometry(1.0,48),
+    new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:0.07}));
+  shadowMesh.rotation.x=-Math.PI/2; shadowMesh.position.y=0; root.add(shadowMesh);
+  window.addEventListener("resize",resize3D);
+  window.addEventListener("orientationchange",function(){ setTimeout(resize3D,220); });
+  setTimeout(resize3D,0);
+  (function loop(){ requestAnimationFrame(loop); controls.update();
+    if(mode==="component") renderer.render(scene,camera); })();
+}
+function resize3D(){
+  if(!renderer)return;
+  var c=document.querySelector(".center");
+  if(!c.clientWidth||!c.clientHeight)return;
+  renderer.setSize(c.clientWidth,c.clientHeight,false);
+  camera.aspect=c.clientWidth/c.clientHeight; camera.updateProjectionMatrix();
+}
+function clearRoot(){ while(root.children.length) root.remove(root.children[0]); }
+
+/* =========================================================
+ * 3D 组件：加载 / 标准化 / 堆叠
+ * =======================================================*/
+var gltfLoader=null, compCache={};
+var COMP_DIR="/assets/mcd_component_models/";
+function srgbToLinear(c){return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}
+function convertVertexColors(obj){
+  obj.traverse(function(o){
+    if(o.isMesh&&o.geometry&&o.geometry.attributes&&o.geometry.attributes.color){
+      var a=o.geometry.attributes.color, arr=a.array, n=a.itemSize;
+      if(arr instanceof Uint8Array){
+        for(var i=0;i<arr.length;i+=n) for(var j=0;j<3&&j<n;j++) arr[i+j]=Math.round(srgbToLinear(arr[i+j]/255)*255);
+      }else{
+        for(var i2=0;i2<arr.length;i2+=n) for(var j2=0;j2<3&&j2<n;j2++) arr[i2+j2]=srgbToLinear(arr[i2+j2]);
+      }
+      a.needsUpdate=true;
+    }
+  });
+}
+function catalogH(kind){
+  var c=Components3D.CATALOG.find(function(x){return x.kind===kind;});
+  return c?c.height:0.2;
+}
+function catalogLabel(kind){
+  var c=Components3D.CATALOG.find(function(x){return x.kind===kind;});
+  return c?c.label:kind;
+}
+function normalizeComponent(obj){
+  var box=new THREE.Box3().setFromObject(obj), sz=new THREE.Vector3(), c=new THREE.Vector3();
+  box.getSize(sz); box.getCenter(c);
+  var s=2.0/Math.max(sz.x,sz.z,0.0001);
+  obj.scale.setScalar(s);
+  obj.position.set(-c.x*s,-c.y*s,-c.z*s);
+  return sz.y*s;
+}
+function prepComponentMaterial(obj){obj.traverse(function(o){if(o.isMesh&&o.material){
+  o.material.side=THREE.DoubleSide;
+  o.material.vertexColors=true;
+  if(o.material.color)o.material.color.set(0xffffff);
+  if("envMapIntensity"in o.material)o.material.envMapIntensity=0.30;
+  if("roughness"in o.material)o.material.roughness=0.72;
+  o.material.needsUpdate=true;}});}
+function getComponentWithFallback(kind,cb){
+  try{
+    var g=Components3D.buildComponent(kind);
+    var h=normalizeComponent(g);
+    cb({obj:g,h:h}); return;
+  }catch(e){ console.warn("程序化组件失败",kind,e); }
+  cb(null);
+}
+function addComponent(kind,quiet){
+  var slot={kind:kind,obj:null,h:catalogH(kind)};
+  compItems.push(slot);
+  getComponentWithFallback(kind,function(r){
+    if(compItems.indexOf(slot)<0) return;
+    if(r){slot.obj=r.obj;slot.h=r.h;}
+    relayoutComp();
+  });
+  relayoutComp();
+  if(!quiet) buildRight3D();
+  updateFab();
+}
+function removeLayer(i){compItems.splice(i,1);relayoutComp();buildRight3D();updateFab();}
+function moveLayer(i,d){var j=i+d;if(j<0||j>=compItems.length)return;
+  var t=compItems[i];compItems[i]=compItems[j];compItems[j]=t;relayoutComp();buildRight3D();}
+var compRoot=null;
+function relayoutComp(){
+  if(compRoot){root.remove(compRoot);compRoot=null;}
+  clearRoot(); root.add(shadowMesh);
+  if(shadowMesh) shadowMesh.position.y=-0.02;
+  if(!compItems.length)return;
+  compRoot=new THREE.Group();
+  var y=0,GAP=0.015;
+  compItems.forEach(function(it){
+    var o=it.obj||Components3D.buildComponent(it.kind);
+    if(!it.obj) it.h=normalizeComponent(o);          // 统一缩放并居中
+    var box=new THREE.Box3().setFromObject(o);
+    /* 水平居中：抵消几何自带偏移，避免各层左右错位 */
+    o.position.x-=(box.min.x+box.max.x)/2;
+    o.position.z-=(box.min.z+box.max.z)/2;
+    box.setFromObject(o);
+    /* 垂直贴合：底面精确落在当前堆叠高度 y 上 */
+    o.position.y+=(y-box.min.y);
+    box.setFromObject(o);
+    compRoot.add(o); y+=(box.max.y-box.min.y)+GAP;
+  });
+  compRoot.position.y=-y/2;
+  root.add(compRoot);
+  compRoot.updateMatrixWorld(true);
+  if(shadowMesh){
+    /* 阴影挂到汉堡本体下方：以实际包围盒底面为基准，避免脱空 */
+    var bb=new THREE.Box3().setFromObject(compRoot);
+    var bottomLocal=compRoot.worldToLocal(new THREE.Vector3(0,bb.min.y,0)).y;
+    var rad=Math.max(bb.max.x-bb.min.x,bb.max.z-bb.min.z)/2;
+    compRoot.add(shadowMesh);
+    shadowMesh.position.set(0,bottomLocal-0.01,0);
+    shadowMesh.scale.setScalar(Math.max(0.85,rad*1.02));
+  }
+  fitStackCamera(y);
+}
+function fitStackCamera(totalH){
+  /* 按实际包围球取景：同时兼顾竖直与水平视野，避免高堆叠被裁顶/裁底 */
+  var box=null;
+  if(compRoot){ compRoot.updateMatrixWorld(true); box=new THREE.Box3().setFromObject(compRoot); }
+  var r=0.8, cy=0, ccx=0, ccz=0;
+  if(box && !box.isEmpty()){
+    var sp=box.getBoundingSphere(new THREE.Sphere());
+    r=Math.max(sp.radius,0.6);
+    cy=sp.center.y; ccx=sp.center.x; ccz=sp.center.z;
+  }
+  var vFov=THREE.MathUtils.degToRad(camera.fov);
+  var aspect=camera.aspect||1.4;
+  var hFov=2*Math.atan(Math.tan(vFov/2)*aspect);
+  var d=Math.max(r/Math.sin(vFov/2), r/Math.sin(hFov/2))*1.12;
+  controls.target.set(ccx,cy,ccz);
+  camera.position.set(ccx, cy+r*0.22, ccz+Math.max(3.2,d));
+
+}
+/* 货架缩略图（离屏烘焙一次） */
+var _tr=null,_ts=null,_tc=null;
+function bakeThumb(kind,imgEl){
+  if(!_tr){
+    _tr=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+    _tr.setSize(96,96,false);
+    if(THREE.sRGBEncoding)_tr.outputEncoding=THREE.sRGBEncoding;
+    _tr.toneMapping=THREE.ACESFilmicToneMapping; _tr.toneMappingExposure=1.0;
+    _ts=new THREE.Scene();
+    _ts.background=new THREE.Color(0xf4e7d2);
+    var env=studioEnv(_tr); if(env)_ts.environment=env;
+    _ts.add(new THREE.HemisphereLight(0xffffff,0xc2ad8c,0.50));
+    var k=new THREE.DirectionalLight(0xffffff,2.0);k.position.set(5,9,7);_ts.add(k);
+    var f=new THREE.DirectionalLight(0xfff1e0,0.60);f.position.set(-6,3,5);_ts.add(f);
+    var r2=new THREE.DirectionalLight(0xffffff,0.50);r2.position.set(0,4,-8);_ts.add(r2);
+    _tc=new THREE.PerspectiveCamera(35,1,0.01,100);
+  }
+  getComponentWithFallback(kind,function(r){
+    if(!r)return;
+    _ts.add(r.obj);
+    var box=new THREE.Box3().setFromObject(r.obj);
+    var sp=box.getBoundingSphere(new THREE.Sphere());
+    var d=Math.max(sp.radius,0.01)/Math.sin(THREE.MathUtils.degToRad(17.5))*1.18;
+    var az=THREE.MathUtils.degToRad(28),el=THREE.MathUtils.degToRad(34);
+    _tc.position.set(d*Math.sin(az)*Math.cos(el),d*Math.sin(el),d*Math.cos(az)*Math.cos(el));
+    _tc.lookAt(0,0,0);
+    _tr.render(_ts,_tc);
+    imgEl.src=_tr.domElement.toDataURL();
+    _ts.remove(r.obj);
+  });
+}
+
+/* =========================================================
+ * 官方汉堡 -> 组件拆解顺序（参考官方结构，自下而上）
+ * 说明：用于「汉堡设计」模式一键载入，可继续逐层编辑
+ * =======================================================*/
+var BURGER_LAYERS={
+  "1100":["bunBottom","beef","cheese","lettuce","pickle","onion","sauce","beef","bunTop"],
+  "1120":["bunBottom","beef","cheese","beef","cheese","pickle","onion","sauce","bunTop"],
+  "1440":["bunBottom","chicken","lettuce","sauce","bunTop"],
+  "511781":["bunBottom","beef","sauce","cheese","tomato","bacon","lettuce","bunTop"],
+  "511782":["bunBottom","beef","cheese","cheese","onion","sauce","bunTop"],
+  "9900003586":["bunBottom","fish","sauce","cheese","fish","bunTop"],
+  "1406":["bunBottom","grilled","lettuce","sauce","bunTop"],
+  "4648":["bunBottom","beef","cheese","bacon","beef","cheese","onion","sauce","bunTop"],
+  "521316":["bunBottom","beef","cheese","tomato","lettuce","beef","cheese","sauce","bunTop"],
+  "521952":["bunBottom","chicken","cheese","lettuce","sauce","bunTop"],
+  "521953":["bunBottom","chicken","cheese","lettuce","sauce","bunTop"],
+  "1106":["bunBottom","beef","cheese","beef","cheese","bacon","tomato","lettuce","sauce","bunTop"],
+  "1600":["bunBottom","fish","cheese","sauce","bunTop"],
+  "1450":["bunBottom","chicken","lettuce","sauce","bunTop"]
+};
+
+/* =========================================================
+ * 营养：官方缺失时按官方组成组件估算
+ * =======================================================*/
+function nutriOf(m){
+  if(m && m.nutrition){
+    var n=m.nutrition;
+    return {kcal:num(n.energyKcal),protein:num(n.protein),fat:num(n.fat),
+            carb:num(n.carbohydrate),sodium:num(n.sodium),estimated:false};
+  }
+  var kinds = m && BURGER_LAYERS[m.code];
+  if(kinds && Components3D.NUTRITION){
+    var t={kcal:0,protein:0,fat:0,carb:0,sodium:0,estimated:true};
+    var got=false;
+    kinds.forEach(function(k){
+      var d=Components3D.NUTRITION[k]; if(!d)return;
+      got=true;
+      t.kcal+=num(d.energyKcal);t.protein+=num(d.protein);t.fat+=num(d.fat);t.carb+=num(d.carbohydrate);
+    });
+    if(got) return t;
+  }
+  return null;
+}
+function comboSummary(){
+  var o={price:0,orig:0,kcal:0,protein:0,fat:0,carb:0,sodium:0,count:0,known:0,unknown:[]};
+  combo.forEach(function(it){
+    var m=BY[it.code]; if(!m)return;
+    o.price+=num(m.price)*it.qty;
+    o.orig+=num(m.originalPrice||m.price)*it.qty;
+    o.count+=it.qty;
+    var nu=nutriOf(m);
+    if(nu){o.kcal+=nu.kcal*it.qty;o.protein+=nu.protein*it.qty;o.fat+=nu.fat*it.qty;
+           o.carb+=nu.carb*it.qty;o.sodium+=nu.sodium*it.qty;o.known+=it.qty;}
+    else o.unknown.push(m.name);
+  });
+  return o;
+}
+
+/* =========================================================
+ * 左栏
+ * =======================================================*/
+var activeGroup="all", keyword="";
+function buildLeft(){
+  if(mode==="combo") buildLeftCombo();
+  else if(mode==="component") buildLeftComponent();
+}
+function drawerTopHtml(){
+  return '<div class="drawerTop"><span class="dHandle"></span>'
+    +'<button class="dClose" id="dClose" aria-label="关闭">✕</button></div>';
+}
+function bindDrawer(){
+  var c=$("dClose"); if(c) c.onclick=closeDrawer;
+  var d=$("dDone"); if(d) d.onclick=closeDrawer;
+}
+function drawerFoot(){
+  return '<div class="dFoot"><button class="dDone" id="dDone">完成选择</button></div>';
+}
+function buildLeftCombo(){
+  var list=MAT.materials.filter(function(m){return m.buyable;});
+  // 分组统计
+  var counts={}; list.forEach(function(m){counts[m.group]=(counts[m.group]||0)+1;});
+  var chips='<div class="chips" id="chips">'
+    + '<button data-g="all" class="'+(activeGroup==="all"?"on":"")+'">全部 '+list.length+'</button>';
+  MAT.groups.forEach(function(g){
+    if(!counts[g.key])return;
+    chips+='<button data-g="'+g.key+'" class="'+(activeGroup===g.key?"on":"")+'">'
+      + g.emoji+' '+g.cn+' '+counts[g.key]+'</button>';
+  });
+  chips+='</div>';
+
+  var L=$("left");
+  L.innerHTML=drawerTopHtml()
+    +'<div class="secHead"><h3>官方单品</h3><span class="secTag">MCP 在售 '+list.length+' 款</span></div>'
+    +'<p class="hint">图片与价格均来自麦当劳官方菜单，点击即加入套餐，可重复添加多份。</p>'
+    +'<input id="search" placeholder="🔍 搜索单品：汉堡 / 薯条 / 可乐…" value="'+esc(keyword)+'">'
+    + chips + '<div class="shelf" id="shelf"></div>' + drawerFoot();
+  L.querySelector("#search").oninput=function(){keyword=this.value.trim();renderShelf();};
+  L.querySelectorAll("#chips button").forEach(function(b){
+    b.onclick=function(){activeGroup=b.dataset.g;buildLeftCombo();};
+  });
+  bindDrawer();
+  renderShelf();
+}
+function renderShelf(){
+  if(mode!=="combo") return;
+  var sh=$("shelf"); if(!sh)return;
+  var kw=keyword;
+  var items=MAT.materials.filter(function(m){
+    if(!m.buyable)return false;
+    if(activeGroup!=="all" && m.group!==activeGroup)return false;
+    if(kw && m.name.indexOf(kw)<0)return false;
+    return true;
+  });
+  if(!items.length){ sh.innerHTML='<div class="empty" style="grid-column:1/-1">没有匹配的单品，换个关键词试试</div>'; return; }
+  var frag=document.createDocumentFragment();
+  items.forEach(function(m){
+    var d=document.createElement("div"); d.className="pitem";
+    var qty=combo.filter(function(x){return x.code===m.code;}).reduce(function(a,b){return a+b.qty;},0);
+    var nu=nutriOf(m);
+    d.title=m.name+"　¥"+m.price+(nu?("　≈"+Math.round(nu.kcal)+" kcal"):"　营养数据暂缺");
+    d.innerHTML='<img src="'+m.photo+'" loading="lazy" alt="">'
+      + (qty?'<span class="badge">×'+qty+'</span>':'')
+      + '<span class="pn">'+esc(m.name)+'</span>'
+      + '<span class="pp">¥'+m.price.toFixed(1)+'</span>';
+    d.onclick=function(){addToCombo(m.code);};
+    frag.appendChild(d);
+  });
+  sh.innerHTML=""; sh.appendChild(frag);
+}
+function buildLeftComponent(){
+  var burgers=MAT.materials.filter(function(m){return m.group==="burger"&&BURGER_LAYERS[m.code];});
+  var L=$("left");
+  var h=drawerTopHtml()
+    +'<div class="secHead"><h3>① 载入官方汉堡</h3><span class="secTag">'+burgers.length+' 款参考</span></div>'
+    +'<p class="hint">一键载入该汉堡的官方组成分层，再自由增删 / 重排，做出你的版本。</p>'
+    +'<div class="bshelf" id="bshelf"></div>'
+    +'<div class="secHead" style="margin-top:16px"><h3>② 组件库</h3>'
+    +'<span class="secTag">'+Components3D.CATALOG.length+' 种食材</span></div>'
+    +'<p class="hint">每个组件都是独立 3D 模型，点击即加入当前汉堡。</p>'
+    +'<div class="preset"><button id="pClassic">经典巨无霸</button><button id="pClear">清空重来</button></div>'
+    +'<div class="shelf" id="shelf"></div>' + drawerFoot();
+  L.innerHTML=h;
+  bindDrawer();
+  var bs=L.querySelector("#bshelf");
+  burgers.forEach(function(m){
+    var d=document.createElement("div"); d.className="bitem";
+    d.innerHTML='<img src="'+m.photo+'" loading="lazy" alt=""><span>'+esc(m.name)+'</span>';
+    d.title="载入「"+m.name+"」官方组成";
+    d.onclick=function(){
+      compItems=[]; relayoutComp();
+      BURGER_LAYERS[m.code].forEach(function(k){addComponent(k,true);});
+      buildRight3D(); updateFab();
+      toast("已载入 "+m.name+"，可继续编辑");
+      if(window.innerWidth<=1024) closeDrawer();
+    };
+    bs.appendChild(d);
+  });
+  var sh=L.querySelector("#shelf");
+  Components3D.CATALOG.forEach(function(c){
+    var d=document.createElement("div"); d.className="pitem";
+    d.innerHTML='<img alt="" style="height:52px"><span class="pn">'+esc(c.label)+'</span>';
+    d.onclick=function(){addComponent(c.kind);};
+    sh.appendChild(d);
+    bakeThumb(c.kind,d.querySelector("img"));
+  });
+  L.querySelector("#pClassic").onclick=function(){
+    compItems=[]; relayoutComp();
+    ["bunBottom","beef","beef","cheese","lettuce","onion","sauce","bunTop"].forEach(function(k){addComponent(k,true);});
+    buildRight3D(); updateFab();
+  };
+  L.querySelector("#pClear").onclick=function(){compItems=[];relayoutComp();buildRight3D();updateFab();};
+}
+
+/* =========================================================
+ * 中栏：2D 托盘
+ * =======================================================*/
+var TRAY_SEC=[
+  {key:"main", cn:"主　食", groups:["burger","chicken"]},
+  {key:"side", cn:"配　餐", groups:["side","dessert","sauce"]},
+  {key:"drink", cn:"饮　品", groups:["drink","coffee"]}
+];
+function addToCombo(code){
+  var hit=combo.filter(function(x){return x.code===code;})[0];
+  if(hit){ hit.qty=Math.min(9,hit.qty+1); }
+  else { combo.push({code:code,qty:1}); }
+  renderTray(); buildRightCombo(); renderShelf(); updateFab();
+}
+function qtyChange(code,d){
+  var i=-1; combo.forEach(function(x,k){if(x.code===code)i=k;});
+  if(i<0)return;
+  combo[i].qty+=d;
+  if(combo[i].qty<=0) combo.splice(i,1);
+  renderTray(); buildRightCombo(); renderShelf(); updateFab();
+}
+function renderTray(){
+  var T=$("tray");
+  if(!combo.length){
+    T.innerHTML='<div class="trayCard"><div class="trayHead"><span class="tnm">我的随心配</span>'
+      +'<span class="tcnt">待搭配</span>'
+      +'<button class="mAdd" id="mAdd">＋ 去选单品</button></div>'
+      +'<div class="trayEmpty"><b>还没有选任何单品 🍟</b>'
+      +'从「官方单品」里点选，自由拼出你的专属套餐</div></div>';
+    bindTrayAdd();
+    return;
+  }
+  var bySec={};
+  combo.forEach(function(it){
+    var m=BY[it.code]; if(!m)return;
+    var sec=TRAY_SEC.filter(function(s){return s.groups.indexOf(m.group)>=0;})[0];
+    var k=sec?sec.key:"main";
+    (bySec[k]||(bySec[k]=[])).push({m:m,qty:it.qty});
+  });
+  var count=combo.reduce(function(a,b){return a+b.qty;},0);
+  var sum=comboSummary();
+  var h='<div class="trayCard"><div class="trayHead"><span class="tnm">'
+    +(combo.length?esc(comboNameOrPlaceholder()):"我的随心配")
+    +'</span><span class="tcnt">共 '+count+' 件 · ¥'+sum.price.toFixed(2)+' · ≈'+Math.round(sum.kcal)+' kcal</span>'
+    +'<button class="mAdd" id="mAdd">＋ 选单品</button></div>';
+  TRAY_SEC.forEach(function(s){
+    var arr=bySec[s.key]; if(!arr||!arr.length)return;
+    h+='<div class="tsec"><h4>'+s.cn+'</h4><div class="tgrid">';
+    arr.forEach(function(x){
+      var m=x.m;
+      h+='<div class="tile"><span class="q">×'+x.qty+'</span>'
+        +'<img src="'+m.photo+'" alt="">'
+        +'<span class="tn">'+esc(m.name)+'</span>'
+        +'<span class="tp">¥'+m.price.toFixed(1)+'</span>'
+        +'<div class="st"><button data-c="'+m.code+'" data-d="-1">−</button>'
+        +'<button data-c="'+m.code+'" data-d="1">+</button>'
+        +'<button data-c="'+m.code+'" data-d="-99" title="移除">✕</button></div></div>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div>';
+  T.innerHTML=h;
+  T.querySelectorAll(".st button").forEach(function(b){
+    b.onclick=function(e){
+      e.stopPropagation();
+      var d=parseInt(b.dataset.d,10);
+      if(d===-99) qtyChange(b.dataset.c,-999); else qtyChange(b.dataset.c,d);
+    };
+  });
+  bindTrayAdd();
+}
+function bindTrayAdd(){ var b=$("mAdd"); if(b) b.onclick=openDrawer; }
+function comboNameOrPlaceholder(){ return comboTitle || "我的随心配"; }
+function setComboTitleOnTray(){ var t=$("tray").querySelector(".tnm"); if(t)t.textContent=comboNameOrPlaceholder(); }
+
+/* =========================================================
+ * 右栏
+ * =======================================================*/
+function buildRight(){
+  if(mode==="combo") buildRightCombo();
+  else if(mode==="component") buildRight3D();
+}
+function buildRightCombo(){
+  var R=$("right");
+  var sum=comboSummary();
+  var h='<div class="phead"><h3>套餐清单</h3>'
+    +'<span class="pcount">'+combo.length+' 种 · '+sum.count+' 件</span></div>';
+  h+='<div class="rlist" id="rlist">';
+  if(!combo.length){
+    h+='<div class="empty">还没有选择单品<br>从左侧货架点选即可加入</div>';
+  }else{
+    combo.forEach(function(it){
+      var m=BY[it.code]; if(!m)return;
+      var nu=nutriOf(m);
+      h+='<div class="row"><img src="'+m.photo+'" alt="">'
+        +'<span class="nm">'+esc(m.name)+'<i>¥'+m.price.toFixed(1)+' × '+it.qty
+        +'　'+(nu?('≈'+Math.round(nu.kcal*it.qty)+' kcal'):'营养暂缺')+'</i></span>'
+        +'<span class="pr">¥'+(m.price*it.qty).toFixed(2)+'</span>'
+        +'<span class="ctl"><button data-c="'+m.code+'" data-d="-1">−</button>'
+        +'<button data-c="'+m.code+'" data-d="1">+</button></span></div>';
+    });
+  }
+  h+='</div>';
+  h+='<p class="rhint">价格与营养均取自麦当劳官方数据；未公开营养的餐品不计入合计。</p>';
+  h+='<div class="info" id="info"></div>';
+  h+='<div class="pubForm">'
+    +'<div class="pt">📤 发布到画廊<span>让大家来投票</span></div>'
+    +'<input id="comboName" placeholder="套餐名称，如：正浩的芝士双牛狂欢" maxlength="24">'
+    +'<input id="nick" placeholder="你的昵称（用于投票去重）" maxlength="12">'
+    +'<button class="btn" id="pubBtn">发布套餐到画廊</button></div>';
+  R.innerHTML=h;
+  R.querySelectorAll(".ctl button").forEach(function(b){
+    b.onclick=function(){ qtyChange(b.dataset.c, parseInt(b.dataset.d,10)); };
+  });
+  var nk=R.querySelector("#nick"); if(nk) nk.value=getVoter();
+  var nm=R.querySelector("#comboName");
+  if(nm){
+    nm.value=comboTitle==="我的随心配"?"":comboTitle;
+    nm.oninput=function(){ comboTitle=this.value.trim()||"我的随心配";
+      var t=$("tray").querySelector(".tnm"); if(t)t.textContent=comboTitle; };
+  }
+  R.querySelector("#pubBtn").onclick=publishCombo;
+  renderInfo(sum,"combo");
+  watchPublish();
+}
+function buildRight3D(){
+  var R=$("right");
+  var h='<div class="phead"><h3>汉堡分层</h3><span class="pcount">'+compItems.length+' 层</span></div>';
+  h+='<div class="rlist" id="rlist">';
+  if(!compItems.length){
+    h+='<div class="empty">从左侧组件库添加食材<br>或点官方汉堡一键载入结构</div>';
+  }
+  compItems.forEach(function(l,i){
+    h+='<div class="layer"><span class="idx">'+(i+1)+'</span>'
+      +'<span class="lnm">'+esc(catalogLabel(l.kind))+'</span>'
+      +'<span class="lc"><button data-i="'+i+'" data-d="-1" title="上移">↑</button>'
+      +'<button data-i="'+i+'" data-d="1" title="下移">↓</button>'
+      +'<button class="del" data-i="'+i+'" data-d="0" title="删除">✕</button></span></div>';
+  });
+  h+='</div>';
+  h+='<p class="rhint">共 '+compItems.length+' 层，三维实时预览（可拖拽旋转查看）。</p>';
+  h+='<div class="info" id="info"></div>';
+  h+='<div class="pubForm">'
+    +'<div class="pt">📤 发布到画廊<span>让大家来投票</span></div>'
+    +'<input id="compName" placeholder="汉堡名称，如：双层芝士厚牛堡" maxlength="24">'
+    +'<input id="nick" placeholder="你的昵称（用于投票去重）" maxlength="12">'
+    +'<button class="btn" id="pubBtn">发布汉堡到画廊</button></div>';
+  R.innerHTML=h;
+  R.querySelectorAll(".lc button").forEach(function(b){
+    b.onclick=function(){
+      var i=parseInt(b.dataset.i,10), d=parseInt(b.dataset.d,10);
+      if(d===0) removeLayer(i); else moveLayer(i,d);
+    };
+  });
+  var nk=R.querySelector("#nick"); if(nk) nk.value=getVoter();
+  R.querySelector("#pubBtn").onclick=publish3D;
+  renderInfo(null,"component");
+  watchPublish();
+}
+function renderInfo(sum,m){
+  var info=$("info"); if(!info)return;
+  if(m==="combo"){
+    sum=sum||comboSummary();
+    if(!sum.count){ info.innerHTML='<div class="empty" style="padding:10px 0">加入单品后自动汇总价格与营养</div>'; return; }
+    var save=sum.orig-sum.price;
+    info.innerHTML='<div class="sumTop"><span class="sumLbl">套餐合计</span>'
+      +(save>0.01?'<span class="save">已省 ¥'+save.toFixed(2)+'</span>':'')
+      +'<span class="sumPrice">¥'+sum.price.toFixed(2)+'</span></div>'
+      +'<div class="grid">'
+      +'<div><span class="k">🔥 热量</span><span class="v">'+Math.round(sum.kcal)+'<i>kcal</i></span></div>'
+      +'<div><span class="k">🥩 蛋白质</span><span class="v">'+sum.protein.toFixed(1)+'<i>g</i></span></div>'
+      +'<div><span class="k">🧈 脂肪</span><span class="v">'+sum.fat.toFixed(1)+'<i>g</i></span></div>'
+      +'<div><span class="k">🌾 碳水</span><span class="v">'+sum.carb.toFixed(1)+'<i>g</i></span></div>'
+      +'<div><span class="k">🧂 钠</span><span class="v">'+Math.round(sum.sodium)+'<i>mg</i></span></div>'
+      +'<div><span class="k">📦 件数</span><span class="v">'+sum.count+'<i>件</i></span></div>'
+      +'</div>'
+      +((sum.unknown.length)?'<div class="note">⚠️ 营养暂缺（未计入合计）：'+esc(sum.unknown.slice(0,4).join("、"))
+        +(sum.unknown.length>4?' 等':'')+'</div>':'')
+      +'<div class="note">营养合计覆盖 '+sum.known+'/'+sum.count+' 件</div>';
+  }else{
+    var price=0,kcal=0,pro=0,fat=0,carb=0,n=0;
+    compItems.forEach(function(it){
+      var d=Components3D.NUTRITION[it.kind]; if(!d)return;
+      price+=d.price;kcal+=d.energyKcal;pro+=d.protein;fat+=d.fat;carb+=d.carbohydrate;n++;
+    });
+    if(!n){ info.innerHTML='<div class="empty" style="padding:10px 0">加入组件后自动汇总</div>'; return; }
+    info.innerHTML='<div class="sumTop"><span class="sumLbl">预计合计</span>'
+      +'<span class="sumPrice">¥'+price.toFixed(2)+'</span></div>'
+      +'<div class="grid g4">'
+      +'<div><span class="k">🔥 热量</span><span class="v">'+Math.round(kcal)+'<i>kcal</i></span></div>'
+      +'<div><span class="k">🥩 蛋白质</span><span class="v">'+pro.toFixed(1)+'<i>g</i></span></div>'
+      +'<div><span class="k">🧈 脂肪</span><span class="v">'+fat.toFixed(1)+'<i>g</i></span></div>'
+      +'<div><span class="k">🌾 碳水</span><span class="v">'+carb.toFixed(1)+'<i>g</i></span></div>'
+      +'</div><div class="note">按各食材标准分量估算，仅供创意参考</div>';
+  }
+}
+
+/* =========================================================
+ * 发布（两种模式统一：先出预览图，再提交）
+ * =======================================================*/
+var IMG_CACHE={};
+function loadImg(src){
+  return new Promise(function(res){
+    if(IMG_CACHE[src]) return res(IMG_CACHE[src]);
+    var im=new Image();
+    im.onload=function(){IMG_CACHE[src]=im;res(im);};
+    im.onerror=function(){res(null);};
+    im.src=src;
+  });
+}
+function roundRect(x,r,w,h,rad){
+  x.beginPath();
+  if(x.roundRect){ x.roundRect(r[0],r[1],w,h,rad); return; }
+  x.moveTo(r[0]+rad,r[1]); x.lineTo(r[0]+w-rad,r[1]); x.quadraticCurveTo(r[0]+w,r[1],r[0]+w,r[1]+rad);
+  x.lineTo(r[0]+w,r[1]+h-rad); x.quadraticCurveTo(r[0]+w,r[1]+h,r[0]+w-rad,r[1]+h);
+  x.lineTo(r[0]+rad,r[1]+h); x.quadraticCurveTo(r[0],r[1]+h,r[0],r[1]+h-rad);
+  x.lineTo(r[0],r[1]+rad); x.quadraticCurveTo(r[0],r[1],r[0]+rad,r[1]); x.closePath();
+}
+async function composeComboPreview(){
+  var list=[];
+  combo.forEach(function(it){ for(var i=0;i<it.qty;i++){ var m=BY[it.code]; if(m) list.push(m); } });
+  var COLS=Math.min(4,Math.max(1,list.length));
+  var CW=200,CH=210,PAD=26,TOP=92;
+  var rows=Math.ceil(list.length/COLS);
+  var W=COLS*CW+PAD*2, H=TOP+rows*CH+PAD;
+  var cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  var x=cv.getContext("2d");
+  var g=x.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,"#fffdf8"); g.addColorStop(1,"#ffeccb");
+  x.fillStyle=g; x.fillRect(0,0,W,H);
+  // 顶部标题
+  x.fillStyle="#E8943B"; x.fillRect(0,0,W,6);
+  x.fillStyle="#3a2c1a"; x.font="700 26px 'PingFang SC','Microsoft YaHei',sans-serif";
+  x.fillText(comboNameOrPlaceholder(), PAD, 46);
+  var sum=comboSummary();
+  x.fillStyle="#8a7a66"; x.font="400 18px 'PingFang SC','Microsoft YaHei',sans-serif";
+  x.fillText("共 "+sum.count+" 件 · ¥"+sum.price.toFixed(2)+" · ≈"+Math.round(sum.kcal)+" kcal", PAD, 74);
+
+  for(var i2=0;i2<list.length;i2++){
+    var col=i2%COLS, row=Math.floor(i2/COLS);
+    var bx=PAD+col*CW+6, by=TOP+row*CH+4, bw=CW-12, bh=CH-12;
+    x.save();
+    roundRect(x,[bx,by],bw,bh,16);
+    x.fillStyle="rgba(255,255,255,.94)"; x.fill();
+    x.strokeStyle="#f0e2cc"; x.lineWidth=2; x.stroke();
+    x.restore();
+    var im=await loadImg(list[i2].photo);
+    if(im){
+      var maxW=bw-24, maxH=bh-58;
+      var sc=Math.min(maxW/im.width, maxH/im.height);
+      var dw=im.width*sc, dh=im.height*sc;
+      x.drawImage(im, bx+(bw-dw)/2, by+8+(maxH-dh)/2, dw, dh);
+    }
+    x.fillStyle="#3a2c1a"; x.font="600 15px 'PingFang SC','Microsoft YaHei',sans-serif";
+    x.textAlign="center";
+    var nm=list[i2].name; if(nm.length>9) nm=nm.slice(0,9)+"…";
+    x.fillText(nm, bx+bw/2, by+bh-32);
+    x.fillStyle="#C0392B"; x.font="700 16px 'PingFang SC','Microsoft YaHei',sans-serif";
+    x.fillText("¥"+list[i2].price.toFixed(1), bx+bw/2, by+bh-12);
+    x.textAlign="left";
+  }
+  return cv.toDataURL("image/jpeg",0.88);
+}
+function capture3D(){
+  try{
+    renderer.render(scene,camera);
+    return renderer.domElement.toDataURL("image/jpeg",0.9);
+  }catch(e){ return ""; }
+}
+async function publishCombo(){
+  if(!combo.length){ toast("先搭配几件单品再发布～"); return; }
+  var nameInput=$("comboName"), nickInput=$("nick");
+  var name=(nameInput&&nameInput.value.trim())||"我的随心配";
+  var author=(nickInput&&nickInput.value.trim())||getVoter();
+  localStorage.setItem(VOTER_KEY,author);
+  var btn=$("pubBtn"); if(btn){btn.disabled=true;btn.textContent="生成预览中…";}
+  var preview="";
+  try{ preview=await composeComboPreview(); }catch(e){ console.warn(e); }
+  var sum=comboSummary();
+  var body={
+    name:name, author:author, mode:"combo",
+    items:combo.map(function(it){return {code:it.code,qty:it.qty};}),
+    layers:(function(){var a=[];combo.forEach(function(it){for(var i=0;i<it.qty;i++)a.push(it.code);});return a;})(),
+    preview:preview,
+    summary:{price:+sum.price.toFixed(2),kcal:Math.round(sum.kcal),protein:+sum.protein.toFixed(1),
+             fat:+sum.fat.toFixed(1),carb:+sum.carb.toFixed(1),sodium:Math.round(sum.sodium),count:sum.count}
+  };
+  try{
+    var r=await fetch("/api/designs",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(body)});
+    var data=await r.json();
+    if(data.error){ toast("发布失败："+data.error); }
+    else{ toast("🎉 发布成功！去画廊看看"); switchMode("gallery"); loadGallery(); }
+  }catch(e){ toast("发布失败（服务未启动？）"); }
+  if(btn){btn.disabled=false;btn.textContent="发布套餐到画廊";}
+}
+async function publish3D(){
+  if(!compItems.length){ toast("先加几层食材再发布～"); return; }
+  var nameInput=$("compName"), nickInput=$("nick");
+  var name=(nameInput&&nameInput.value.trim())||"我的创意汉堡";
+  var author=(nickInput&&nickInput.value.trim())||getVoter();
+  localStorage.setItem(VOTER_KEY,author);
+  var btn=$("pubBtn"); if(btn){btn.disabled=true;btn.textContent="截图上传中…";}
+  var preview=capture3D();
+  var price=0,kcal=0,pro=0,fat=0,carb=0;
+  compItems.forEach(function(it){
+    var d=Components3D.NUTRITION[it.kind]; if(!d)return;
+    price+=d.price;kcal+=d.energyKcal;pro+=d.protein;fat+=d.fat;carb+=d.carbohydrate;
+  });
+  var body={
+    name:name, author:author, mode:"component",
+    layers:compItems.map(function(l){return l.kind;}),
+    labels:compItems.map(function(l){return catalogLabel(l.kind);}),
+    preview:preview,
+    summary:{price:+price.toFixed(2),kcal:Math.round(kcal),protein:+pro.toFixed(1),
+             fat:+fat.toFixed(1),carb:+carb.toFixed(1),count:compItems.length}
+  };
+  try{
+    var r=await fetch("/api/designs",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(body)});
+    var data=await r.json();
+    if(data.error){ toast("发布失败："+data.error); }
+    else{ toast("🎉 发布成功！去画廊看看"); switchMode("gallery"); loadGallery(); }
+  }catch(e){ toast("发布失败（服务未启动？）"); }
+  if(btn){btn.disabled=false;btn.textContent="发布汉堡到画廊";}
+}
+
+/* =========================================================
+ * 画廊 + 投票
+ * =======================================================*/
+async function loadGallery(){
+  var grid=$("gGrid");
+  grid.innerHTML='<div class="empty" style="grid-column:1/-1">加载中…</div>';
+  var data;
+  try{
+    var r=await fetch("/api/gallery?t="+Date.now());
+    data=await r.json();
+  }catch(e){
+    grid.innerHTML='<div class="empty" style="grid-column:1/-1">无法连接服务，请确认已用 scripts/studio_server.py 启动</div>';
+    return;
+  }
+  var designs=data.designs||[];
+  $("gEmpty").style.display=designs.length?"none":"block";
+  $("gCount").textContent = designs.length ? designs.length+" 件作品" : "";
+  var voter=getVoter();
+  if(!designs.length){ grid.innerHTML=""; return; }
+  var h="";
+  designs.forEach(function(d,i){
+    var voted=(d.voters||[]).indexOf(voter)>=0;
+    var isCombo=d.mode!=="component";
+    var chips="";
+    var names=d.item_names||d.labels||[];
+    names.slice(0,6).forEach(function(n){ chips+='<span>'+esc(n)+'</span>'; });
+    if(names.length>6) chips+='<span>+'+(names.length-6)+'</span>';
+    var s=d.summary||{};
+    var rk = i===0?" r1":(i===1?" r2":(i===2?" r3":""));
+    h+='<article class="gcard" data-id="'+d.id+'">'
+      +'<div class="grank'+rk+'">#'+(i+1)+'</div>'
+      +'<div class="gimg">'+(d.preview
+          ?'<img src="'+d.preview+'" alt="" loading="lazy">'
+          :'<div class="empty">暂无预览图</div>')+'</div>'
+      +'<div class="gbody">'
+      +'<div class="gname">'+esc(d.name)
+      +'<span class="gmode'+(isCombo?"":" c")+'">'+(isCombo?"套餐":"汉堡")+'</span></div>'
+      +'<div class="gmeta">👤 '+esc(d.author)+' · 🕒 '+esc(d.created_at)+'</div>'
+      +(chips?'<div class="gchips">'+chips+'</div>':'')
+      +'<div class="gnut">💰 ¥'+(s.price!=null?Number(s.price).toFixed(2):"—")
+      +'　🔥 '+(s.kcal!=null?s.kcal:"—")+' kcal'
+      +(s.count?'　📦 '+s.count+' 件':'')+'</div>'
+      +'<button class="gvote'+(voted?" voted":"")+'">'+(voted?"✅ 已投票":"🗳️ 投票")
+      +'<b>'+d.votes+'</b></button>'
+      +'</div></article>';
+  });
+  grid.innerHTML=h;
+  grid.querySelectorAll(".gvote").forEach(function(btn){
+    btn.onclick=function(){ vote(btn.closest(".gcard").dataset.id, btn); };
+  });
+}
+async function vote(id,btn){
+  var voter=getVoter();
+  btn.disabled=true;
+  try{
+    var r=await fetch("/api/vote",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({id:id,voter:voter})});
+    var data=await r.json();
+    if(data.error){ toast(data.error); btn.disabled=false; return; }
+    toast("🗳️ 投票成功，感谢支持！");
+    setTimeout(loadGallery,350);
+  }catch(e){ toast("投票失败（服务未启动？）"); btn.disabled=false; }
+}
+
+/* =========================================================
+ * 模式切换
+ * =======================================================*/
+function switchMode(m){
+  mode=m;
+  var isGal=(m==="gallery");
+  closeDrawer();
+  $("wrap").style.display=isGal?"none":"";
+  $("galleryWrap").classList.toggle("on",isGal);
+  $("mCombo").classList.toggle("on",m==="combo");
+  $("mComp").classList.toggle("on",m==="component");
+  $("mGal").classList.toggle("on",isGal);
+  document.querySelectorAll("#tabbar button").forEach(function(b){
+    b.classList.toggle("on", b.dataset.m===m);
+  });
+  var fab=$("fab");
+  if(isGal){ fab.style.display="none"; }
+  else { fab.style.display=""; }
+  updateFab();
+  if(isGal){ loadGallery(); return; }
+
+  var isCombo=(m==="combo");
+  $("cv").style.display=isCombo?"none":"block";
+  $("tray").classList.toggle("on",isCombo);
+  document.body.classList.toggle("mode-combo", isCombo);
+  $("ov").textContent=isCombo
+    ? "2D 套餐搭配：点选左侧官方单品加入套餐，可重复添加、随意调整，实时看价格与营养"
+    : "3D 汉堡设计：可先在左侧载入官方汉堡结构，再逐层增删 / 重排你想要的食材";
+  buildLeft(); buildRight();
+  if(isCombo){ renderTray(); }
+  else { setTimeout(function(){ resize3D(); relayoutComp(); },30); }
+}
+$("mCombo").onclick=function(){ switchMode("combo"); };
+$("mComp").onclick=function(){ switchMode("component"); };
+$("mGal").onclick=function(){ switchMode("gallery"); };
+document.querySelectorAll("#tabbar button").forEach(function(b){
+  b.onclick=function(){ switchMode(b.dataset.m); };
+});
+$("gRefresh").onclick=loadGallery;
+$("voter").oninput=function(){ if(this.value.trim()) localStorage.setItem(VOTER_KEY,this.value.trim()); };
+$("fab").onclick=function(){ isDrawerOpen()?closeDrawer():openDrawer(); };
+$("backdrop").onclick=closeDrawer;
+document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeDrawer(); });
+/* 窗口由窄变宽时，抽屉态自动复位 */
+window.addEventListener("resize",function(){
+  if(window.innerWidth>1024 && isDrawerOpen()) closeDrawer();
+});
+
+/* =========================================================
+ * 启动
+ * =======================================================*/
+async function boot(){
+  init3D();
+  try{
+    var r=await fetch("/api/materials");
+    MAT=await r.json();
+  }catch(e){
+    toast("素材库加载失败，请用 scripts/studio_server.py 启动服务");
+  }
+  MAT.byCode={}; (MAT.materials||[]).forEach(function(m){MAT.byCode[m.code]=m;});
+  BY=MAT.byCode;
+  switchMode("combo");
+
+  /* ---- 演示 / 回归验证钩子 ----
+     ?tab=combo|comp|gallery
+     ?combo=1100x1,4810x1,9900008751x1
+     ?comp=bunBottom,beef,cheese,lettuce,sauce,bunTop
+     ?burger=1100   载入官方汉堡结构
+  */
+  var q=new URLSearchParams(location.search);
+  var tab=q.get("tab");
+  var cs=q.get("combo");
+  if(cs){
+    switchMode("combo");
+    cs.split(",").forEach(function(seg){
+      var p=seg.trim().split("x"); if(!p[0])return;
+      var qty=Math.max(1,Math.min(9,parseInt(p[1]||"1",10)||1));
+      for(var i=0;i<qty;i++) addToCombo(p[0]);
+    });
+  }
+  var bk=q.get("burger");
+  if(bk){
+    switchMode("component");
+    compItems=[]; relayoutComp();
+    (BURGER_LAYERS[bk]||[]).forEach(function(k){addComponent(k,true);});
+    buildRight3D();
+  }
+  var ck=q.get("comp");
+  if(ck){
+    switchMode("component");
+    compItems=[]; relayoutComp();
+    ck.split(",").forEach(function(k){ if(k.trim()) addComponent(k.trim(),true); });
+    buildRight3D();
+  }
+  if(q.get("selftest")){
+    (async function(){
+      addToCombo("1100"); addToCombo("4810"); addToCombo("9900008751");
+      comboTitle="客户端自测套餐"; setComboTitleOnTray();
+      var du="", err="";
+      try{ du=await composeComboPreview(); }catch(e){ err=String(e); }
+      var res="", did="";
+      try{
+        var sum=comboSummary();
+        var r=await fetch("/api/designs",{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({name:"客户端自测套餐",author:"selftest",mode:"combo",
+            items:combo.map(function(it){return {code:it.code,qty:it.qty};}),
+            preview:du, summary:{price:+sum.price.toFixed(2),kcal:Math.round(sum.kcal),
+            protein:+sum.protein.toFixed(1),fat:+sum.fat.toFixed(1),carb:+sum.carb.toFixed(1),
+            sodium:Math.round(sum.sodium),count:sum.count}})});
+        var j=await r.json(); did=j.id||("ERR:"+j.error);
+      }catch(e){ did="FETCH-ERR"; res=String(e); }
+      var box=document.createElement("div");
+      box.style="position:fixed;left:14px;bottom:80px;z-index:99999;background:#fff;padding:10px;border:2px solid #DA291C;max-width:520px";
+      box.innerHTML='<div style="font:12px/1.5 monospace;color:#DA291C">compose '+du.length+'B '
+        +(err?("ERR "+err):"ok")+' / POST '+did+' '+res+'</div>'
+        +'<img src="'+du+'" style="width:100%;display:block;margin-top:6px;border:1px solid #eee">';
+      document.body.appendChild(box);
+    })();
+  }
+  if(tab==="gallery") switchMode("gallery");
+  if(tab==="comp" && !ck && !bk) switchMode("component");
+  if(q.get("drawer")) setTimeout(openDrawer,120);   // 移动端抽屉自测入口
+}
+boot();
+})();
+</script>
+</body>
+</html>

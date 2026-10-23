@@ -1,0 +1,20 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [
+      {
+        "text": "# API Response Information\n\nBelow is the response from an API call. To help you understand the data, I've provided:\n\n1. A detailed description of all fields in the response structure\n2. The complete API response\n\n## Response Structure\n\n> Content-Type: application/json\n\n- **data**: No comments found. (Type: object)\n  - **data.categories**: 菜单分类列表 (Type: array)\n    - **data.categories[].name**: 菜单分类名称 (Type: string)\n    - **data.categories[].meals**: 该分类下的餐品列表 (Type: array)\n      - **data.categories[].meals[].code**: 餐品唯一编码 (Type: string)\n      - **data.categories[].meals[].tags**: 餐品标签列表 (Type: array)\n  - **data.meals**: 餐品详情映射表 (Type: object)\n    - **data.meals.mapKey**: 餐品完整详情实体 (Type: object)\n      - **data.meals.mapKey.name**: 餐品名称 (Type: string)\n      - **data.meals.mapKey.image**: 商品图片 (Type: string)\n      - **data.meals.mapKey.currentPrice**: 餐品现价（销售价） (Type: string)\n      - **data.meals.mapKey.originalPrice**: 商品原价（划线价） (Type: string)\n      - **data.meals.mapKey.discountType**: 享受优惠的类型：null-不享受优惠，\"早餐卡优惠\"，\"促销优惠\"，\"麦金卡优惠\"，\"随单购早餐卡优惠\"，\"随单购麦金卡优惠\" (Type: string)\n      - **data.meals.mapKey.canWithOrder**: 该商品是否可随单购早餐卡或者麦金卡,随单购是只除了购买商品之外，额外再加上早餐卡或者麦金卡等随单购商品 (Type: boolean)\n      - **data.meals.{code}.withOrder**: 随单购商品，当商品享受随单购优惠价时，用户必须要选择随单购才可享受优惠，否则将以原价购买 (Type: object)\n        - **data.meals.{code}.withOrder.cardId**: 随单购卡id (Type: string)\n        - **data.meals.{code}.withOrder.cardType**: 随单购卡类型 (Type: integer)\n        - **data.meals.{code}.withOrder.membershipCode**: 随单购会员code (Type: string)\n        - **data.meals.{code}.withOrder.specId**: 随单购规格id (Type: string)\n  - **data.frequent**: 常点餐品 (Type: object)\n    - **data.frequent.code**: 餐品唯一编码 (Type: string)\n    - **data.frequent.tags**: 餐品标签列表 (Type: array)\n- **message**: No comments found. (Type: string)\n- **traceId**: No comments found. (Type: string)\n\n## Original Response\n\n{\"success\":false,\"code\":400,\"message\":\"缺少参数\",\"datetime\":\"2026-10-20 12:15:32\",\"traceId\":\"010243b7d2b75c9a5402d0b013f55101\"}",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "success": false,
+      "code": 400,
+      "message": "缺少参数",
+      "datetime": "2026-10-20 12:15:32",
+      "traceId": "010243b7d2b75c9a5402d0b013f55101"
+    }
+  }
+}

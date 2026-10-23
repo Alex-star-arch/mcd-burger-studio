@@ -1,0 +1,40 @@
+# ===== 体积 / 隐私：不进入公开仓库 =====
+
+# InstantMesh 权重与源码（约 21 GB）
+_vendor/
+# 本地版本备份
+_backup/
+# 旧版前端（历史存档）
+_legacy_pages/
+# 临时截图
+_shots/
+# 早期 InstantMesh 批量产物（123 个 GLB，约 215 MB）
+assets/mcd_models/
+# 早期碎片清理版 GLB
+assets/mcd_models_clean/
+# 早期官方图清洗版
+assets/mcd_photos_clean/
+# 临时调试页
+assets/_component_bake.html
+assets/_inspect.html
+assets/_bbox.html
+assets/_frame.html
+assets/_vp.html
+
+# ===== 依赖 / 缓存 =====
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# ===== 本地数据与凭证 =====
+*.bak
+*.bak20*
+mcp.json
+gallery/*.tmp

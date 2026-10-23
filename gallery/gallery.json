@@ -1,0 +1,295 @@
+{
+  "designs": [
+    {
+      "id": "d1792737066633",
+      "name": "巨无霸经典套餐",
+      "author": "正浩",
+      "created_at": "2026-10-23 14:31",
+      "mode": "combo",
+      "items": [
+        {
+          "code": "1100",
+          "qty": 1
+        },
+        {
+          "code": "4810",
+          "qty": 1
+        },
+        {
+          "code": "9900008751",
+          "qty": 1
+        }
+      ],
+      "layers": [
+        "1100",
+        "4810",
+        "9900008751"
+      ],
+      "item_names": [
+        "巨无霸",
+        "薯条",
+        "可乐"
+      ],
+      "summary": {
+        "price": 48.5,
+        "kcal": 619,
+        "protein": 29.0,
+        "fat": 30.0,
+        "carb": 57.0,
+        "sodium": 1057,
+        "count": 3
+      },
+      "preview": "/gallery/img_d1792737066633.jpg",
+      "votes": 7,
+      "voters": [
+        "小明",
+        "小红",
+        "阿杰",
+        "Lily",
+        "Tom",
+        "老王",
+        "测试用户"
+      ]
+    },
+    {
+      "id": "d1792737066693",
+      "name": "双牛芝士狂欢",
+      "author": "小鹿",
+      "created_at": "2026-10-23 14:31",
+      "mode": "combo",
+      "items": [
+        {
+          "code": "1120",
+          "qty": 1
+        },
+        {
+          "code": "521316",
+          "qty": 1
+        },
+        {
+          "code": "4810",
+          "qty": 1
+        },
+        {
+          "code": "4437",
+          "qty": 1
+        },
+        {
+          "code": "9900008751",
+          "qty": 1
+        }
+      ],
+      "layers": [
+        "1120",
+        "521316",
+        "4810",
+        "4437",
+        "9900008751"
+      ],
+      "item_names": [
+        "双层吉士汉堡",
+        "高达吉士双牛堡",
+        "薯条",
+        "玉米杯",
+        "可乐"
+      ],
+      "summary": {
+        "price": 81.5,
+        "kcal": 622,
+        "protein": 33.0,
+        "fat": 27.0,
+        "carb": 58.0,
+        "sodium": 1115,
+        "count": 5
+      },
+      "preview": "/gallery/img_d1792737066693.jpg",
+      "votes": 7,
+      "voters": [
+        "小明",
+        "小红",
+        "阿杰",
+        "Lily",
+        "Tom",
+        "老王",
+        "测试用户"
+      ]
+    },
+    {
+      "id": "d1792737066751",
+      "name": "板烧轻食组合",
+      "author": "阿橙",
+      "created_at": "2026-10-23 14:31",
+      "mode": "combo",
+      "items": [
+        {
+          "code": "1406",
+          "qty": 1
+        },
+        {
+          "code": "6102",
+          "qty": 1
+        },
+        {
+          "code": "515520",
+          "qty": 1
+        },
+        {
+          "code": "515837",
+          "qty": 1
+        }
+      ],
+      "layers": [
+        "1406",
+        "6102",
+        "515520",
+        "515837"
+      ],
+      "item_names": [
+        "板烧鸡腿堡",
+        "苹果片",
+        "怡泉+C",
+        "圆筒冰淇淋"
+      ],
+      "summary": {
+        "price": 47.0,
+        "kcal": 626,
+        "protein": 25.0,
+        "fat": 20.0,
+        "carb": 83.0,
+        "sodium": 1077,
+        "count": 4
+      },
+      "preview": "/gallery/img_d1792737066751.jpg",
+      "votes": 5,
+      "voters": [
+        "小明",
+        "小红",
+        "阿杰",
+        "Lily",
+        "Tom"
+      ]
+    },
+    {
+      "id": "d1792737084668",
+      "name": "培根安格斯厚牛堡(重组)",
+      "author": "大壮",
+      "created_at": "2026-10-23 14:31",
+      "mode": "component",
+      "items": [],
+      "layers": [
+        "bunBottom",
+        "beef",
+        "sauce",
+        "cheese",
+        "tomato",
+        "bacon",
+        "lettuce",
+        "bunTop"
+      ],
+      "item_names": [
+        "面包胚(下)",
+        "牛肉饼",
+        "酱料",
+        "芝士片",
+        "番茄片",
+        "培根",
+        "生菜",
+        "面包胚(上·带芝麻)"
+      ],
+      "summary": {
+        "price": 24.6,
+        "kcal": 606,
+        "protein": 44.3,
+        "fat": 27,
+        "carb": 48,
+        "sodium": null,
+        "count": 8
+      },
+      "preview": "/gallery/img_d1792737084668.jpg",
+      "votes": 4,
+      "voters": [
+        "小明",
+        "小红",
+        "阿杰",
+        "麦粉6110"
+      ]
+    },
+    {
+      "id": "d1792738048420",
+      "name": "我的随心配",
+      "author": "麦粉6460",
+      "created_at": "2026-10-23 14:47",
+      "mode": "combo",
+      "items": [
+        {
+          "code": "1700",
+          "qty": 1
+        },
+        {
+          "code": "521156",
+          "qty": 1
+        }
+      ],
+      "layers": [
+        "1700",
+        "521156"
+      ],
+      "item_names": [
+        "麦辣鸡翅",
+        "那么大鸡排(椒盐风味)"
+      ],
+      "summary": {
+        "price": 29,
+        "kcal": 609,
+        "protein": 37,
+        "fat": 36,
+        "carb": 33,
+        "sodium": 1533,
+        "count": 2
+      },
+      "preview": "/gallery/img_d1792738048420.jpg",
+      "votes": 1,
+      "voters": [
+        "麦粉6460"
+      ]
+    },
+    {
+      "id": "d1792738114096",
+      "name": "我的创意汉堡",
+      "author": "麦粉6460",
+      "created_at": "2026-10-23 14:48",
+      "mode": "component",
+      "items": [],
+      "layers": [
+        "bunBottom",
+        "beef",
+        "chicken",
+        "cheese",
+        "tomato",
+        "bunTop"
+      ],
+      "item_names": [
+        "面包胚(下)",
+        "牛肉饼",
+        "鸡排",
+        "芝士片",
+        "番茄片",
+        "面包胚(上·带芝麻)"
+      ],
+      "summary": {
+        "price": 11.2,
+        "kcal": 638,
+        "protein": 39.4,
+        "fat": 32,
+        "carb": 57,
+        "sodium": null,
+        "count": 6
+      },
+      "preview": "/gallery/img_d1792738114096.jpg",
+      "votes": 1,
+      "voters": [
+        "麦粉6460"
+      ]
+    }
+  ]
+}

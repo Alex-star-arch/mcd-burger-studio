@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>麦当劳「真」随心配 · 离线可视化示例</title>
+<style>body{font-family:-apple-system,Segoe UI,Microsoft YaHei,sans-serif;background:#fff7ec;margin:0;padding:24px;color:#3a2c18}
+h1{color:#da291c} .sub{color:#8a5a16;margin-bottom:18px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card{background:#fff;border:1px solid #f0e2c8;border-radius:14px;padding:12px;box-shadow:0 4px 14px rgba(180,120,30,.1)}
+.card .svg{display:flex;justify-content:center;background:#fffaf2;border-radius:10px;padding:8px}
+.card .nm{font-weight:800;font-size:16px;margin:8px 0 4px} .it{font-size:12px;color:#9a8259} .nu{font-size:12px;color:#8a5a16;background:#fff6e6;padding:4px 8px;border-radius:8px;margin-top:6px;display:inline-block}
+.note{background:#fff2d6;border:1px solid #f0e2c8;border-radius:10px;padding:12px;margin-bottom:18px;font-size:13px}
+code{background:#fff;border:1px solid #f0e2c8;padding:1px 6px;border-radius:5px}</style></head>
+<body><h1>🍔 麦当劳「真」随心配</h1><div class="sub">基于麦当劳 MCP 真实在售素材 · 离线可视化示例（运行 <code>python scripts/studio_server.py</code> 可获得完整「设计+画廊+投票」体验）</div>
+<div class="note">示例作品由真实麦当劳在售单品组合而成（数据来自麦当劳 MCP <code>query-meals</code> / <code>list-nutrition-foods</code>）。启动网页工作室后，任何人都能自由叠料、发布作品并互相投票打榜。</div>
+<div class="grid"><div class="card"><div class="svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 225" width="360" height="225" font-family="-apple-system,Segoe UI,Microsoft YaHei,sans-serif">
+<rect x="0" y="0" width="360" height="225" rx="18" fill="#fff7ec"/>
+<text x="180.0" y="20" text-anchor="middle" font-size="15" font-weight="700" fill="#7a4a16">麦门至尊塔</text>
+<defs><linearGradient id="bun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c069"/><stop offset="1" stop-color="#d99a3c"/></linearGradient></defs>
+<path d="M 40 80 Q 180.0 16 320 80 L 320 80 L 40 80 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+<ellipse cx="137" cy="55" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-34 137 55)"/>
+<ellipse cx="76" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(6 76 63)"/>
+<ellipse cx="200" cy="70" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-13 200 70)"/>
+<ellipse cx="67" cy="61" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-32 67 61)"/>
+<ellipse cx="117" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 117 63)"/>
+<ellipse cx="260" cy="54" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-12 260 54)"/>
+<ellipse cx="212" cy="64" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 212 64)"/>
+<rect x="44" y="83" width="272" height="30" rx="11" fill="#E8893B" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="44" y="83" width="272" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="99" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍗 麦辣鸡腿汉堡三件套</text>
+<rect x="47" y="116" width="266" height="30" rx="11" fill="#B9A7C9" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="47" y="116" width="266" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="132" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍽️ 巨无霸三件套</text>
+<rect x="50" y="149" width="260" height="30" rx="11" fill="#E8B84B" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="50" y="149" width="260" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="165" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍟 薯条</text>
+<path d="M 40 182 L 320 182 L 320 216 Q 180.0 236 40 216 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+</svg></div><div class="nm">麦门至尊塔</div><div class="it">🧺 麦辣鸡腿汉堡三件套 + 巨无霸三件套 + 薯条</div><div class="nu">🔥1287kcal · 💰¥83.50 · 🥩55.0g蛋白</div></div><div class="card"><div class="svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 225" width="360" height="225" font-family="-apple-system,Segoe UI,Microsoft YaHei,sans-serif">
+<rect x="0" y="0" width="360" height="225" rx="18" fill="#fff7ec"/>
+<text x="180.0" y="20" text-anchor="middle" font-size="15" font-weight="700" fill="#7a4a16">海鲜狂想曲</text>
+<defs><linearGradient id="bun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c069"/><stop offset="1" stop-color="#d99a3c"/></linearGradient></defs>
+<path d="M 40 80 Q 180.0 16 320 80 L 320 80 L 40 80 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+<ellipse cx="137" cy="55" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-34 137 55)"/>
+<ellipse cx="76" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(6 76 63)"/>
+<ellipse cx="200" cy="70" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-13 200 70)"/>
+<ellipse cx="67" cy="61" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-32 67 61)"/>
+<ellipse cx="117" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 117 63)"/>
+<ellipse cx="260" cy="54" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-12 260 54)"/>
+<ellipse cx="212" cy="64" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 212 64)"/>
+<rect x="44" y="83" width="272" height="30" rx="11" fill="#3E8E8A" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="44" y="83" width="272" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="99" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="600">🐟 三文鱼双虾至尊月堡</text>
+<rect x="47" y="116" width="266" height="30" rx="11" fill="#3E8E8A" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="47" y="116" width="266" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="132" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="600">🐟 三文鱼双虾至尊月堡</text>
+<rect x="50" y="149" width="260" height="30" rx="11" fill="#6FB35A" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="50" y="149" width="260" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="165" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="600">🥬 玉米杯</text>
+<path d="M 40 182 L 320 182 L 320 216 Q 180.0 236 40 216 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+</svg></div><div class="nm">海鲜狂想曲</div><div class="it">🧺 三文鱼双虾至尊月堡 + 三文鱼双虾至尊月堡 + 玉米杯</div><div class="nu">🔥87kcal · 💰¥73.00 · 🥩4.0g蛋白</div></div><div class="card"><div class="svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 225" width="360" height="225" font-family="-apple-system,Segoe UI,Microsoft YaHei,sans-serif">
+<rect x="0" y="0" width="360" height="225" rx="18" fill="#fff7ec"/>
+<text x="180.0" y="20" text-anchor="middle" font-size="15" font-weight="700" fill="#7a4a16">甜蜜暴击堡</text>
+<defs><linearGradient id="bun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c069"/><stop offset="1" stop-color="#d99a3c"/></linearGradient></defs>
+<path d="M 40 80 Q 180.0 16 320 80 L 320 80 L 40 80 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+<ellipse cx="137" cy="55" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-34 137 55)"/>
+<ellipse cx="76" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(6 76 63)"/>
+<ellipse cx="200" cy="70" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-13 200 70)"/>
+<ellipse cx="67" cy="61" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-32 67 61)"/>
+<ellipse cx="117" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 117 63)"/>
+<ellipse cx="260" cy="54" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-12 260 54)"/>
+<ellipse cx="212" cy="64" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 212 64)"/>
+<rect x="44" y="83" width="272" height="30" rx="11" fill="#E98AAE" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="44" y="83" width="272" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="99" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍦 新地</text>
+<rect x="47" y="116" width="266" height="30" rx="11" fill="#E98AAE" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="47" y="116" width="266" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="132" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍦 泷愿成真麦旋风——大米风味</text>
+<rect x="50" y="149" width="260" height="30" rx="11" fill="#E98AAE" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="50" y="149" width="260" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="165" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🍦 派</text>
+<path d="M 40 182 L 320 182 L 320 216 Q 180.0 236 40 216 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+</svg></div><div class="nm">甜蜜暴击堡</div><div class="it">🧺 新地 + 泷愿成真麦旋风——大米风味 + 派</div><div class="nu">🔥514kcal · 💰¥37.00 · 🥩7.0g蛋白</div></div><div class="card"><div class="svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 225" width="360" height="225" font-family="-apple-system,Segoe UI,Microsoft YaHei,sans-serif">
+<rect x="0" y="0" width="360" height="225" rx="18" fill="#fff7ec"/>
+<text x="180.0" y="20" text-anchor="middle" font-size="15" font-weight="700" fill="#7a4a16">芝士怪兽</text>
+<defs><linearGradient id="bun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c069"/><stop offset="1" stop-color="#d99a3c"/></linearGradient></defs>
+<path d="M 40 80 Q 180.0 16 320 80 L 320 80 L 40 80 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+<ellipse cx="137" cy="55" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-34 137 55)"/>
+<ellipse cx="76" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(6 76 63)"/>
+<ellipse cx="200" cy="70" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-13 200 70)"/>
+<ellipse cx="67" cy="61" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-32 67 61)"/>
+<ellipse cx="117" cy="63" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 117 63)"/>
+<ellipse cx="260" cy="54" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-12 260 54)"/>
+<ellipse cx="212" cy="64" rx="3.2" ry="1.8" fill="#fff3d6" transform="rotate(-33 212 64)"/>
+<rect x="44" y="83" width="272" height="30" rx="11" fill="#F4B400" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="44" y="83" width="272" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="99" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="600">🧀 芝士安格斯厚牛堡</text>
+<rect x="47" y="116" width="266" height="30" rx="11" fill="#8B3A2B" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="47" y="116" width="266" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="132" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="600">🥩 培根安格斯厚牛堡</text>
+<rect x="50" y="149" width="260" height="30" rx="11" fill="#8B3A2B" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+<rect x="50" y="149" width="260" height="6" rx="6" fill="rgba(255,255,255,0.22)"/>
+<text x="180.0" y="165" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="600">🥩 培根安格斯厚牛堡</text>
+<path d="M 40 182 L 320 182 L 320 216 Q 180.0 236 40 216 Z" fill="url(#bun)" stroke="#c98a2e" stroke-width="1.5"/>
+</svg></div><div class="nm">芝士怪兽</div><div class="it">🧺 芝士安格斯厚牛堡 + 培根安格斯厚牛堡 + 培根安格斯厚牛堡</div><div class="nu">🔥2110kcal · 💰¥100.50 · 🥩100.0g蛋白</div></div></div></body></html>
