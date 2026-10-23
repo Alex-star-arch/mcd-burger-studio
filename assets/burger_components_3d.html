@@ -583,7 +583,7 @@ body.mode-combo footer#hint{display:none}
   <div class="gTop">
     <div>
       <h2>🏆 作品画廊<span class="gcount" id="gCount"></span></h2>
-      <p class="hint">「套餐搭配」与「汉堡设计」作品同台参评 · 每个昵称对每件作品限投一票 · 按票数实时排名</p>
+      <p class="hint">「套餐搭配」与「汉堡设计」作品同台参评 · 每个昵称对每件作品限投一票 · 按票数实时排名 · 非官方产品，产品图与商标版权归麦当劳所有</p>
     </div>
     <div class="gTools">
       <input id="voter" placeholder="你的昵称（投票去重）">
@@ -1173,7 +1173,7 @@ function buildRightCombo(){
     });
   }
   h+='</div>';
-  h+='<p class="rhint">价格与营养均取自麦当劳官方数据；未公开营养的餐品不计入合计。</p>';
+  h+='<p class="rhint">价格与营养均取自麦当劳官方数据；未公开营养的餐品不计入合计。<br>非官方产品 · 产品图与商标版权归麦当劳所有，仅供创意演示。</p>';
   h+='<div class="info" id="info"></div>';
   h+='<div class="pubForm">'
     +'<div class="pt">📤 发布到画廊<span>让大家来投票</span></div>'
@@ -1263,7 +1263,7 @@ function renderInfo(sum,m){
       +'<div><span class="k">🥩 蛋白质</span><span class="v">'+pro.toFixed(1)+'<i>g</i></span></div>'
       +'<div><span class="k">🧈 脂肪</span><span class="v">'+fat.toFixed(1)+'<i>g</i></span></div>'
       +'<div><span class="k">🌾 碳水</span><span class="v">'+carb.toFixed(1)+'<i>g</i></span></div>'
-      +'</div><div class="note">按各食材标准分量估算，仅供创意参考</div>';
+      +'</div><div class="note">按各食材标准分量估算，仅供创意参考 · 非官方产品</div>';
   }
 }
 

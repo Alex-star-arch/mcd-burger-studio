@@ -305,19 +305,26 @@ def lan_ip():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--port", type=int, default=8765)
-    ap.add_argument("--host", default="0.0.0.0")
+    # 云平台（WorkBuddy 发布 / 容器）通过 PORT 环境变量注入端口，必须优先读取；
+    # 命令行参数仍可覆盖，便于本地指定。
+    ap.add_argument("--port", type=int, default=int(os.environ.get("PORT", "8765")))
+    ap.add_argument("--host", default=os.environ.get("HOST", "0.0.0.0"))
     args = ap.parse_args()
     os.makedirs(GALLERY_DIR, exist_ok=True)
     if not os.path.exists(GALLERY_PATH):
         save_gallery({"designs": []})
     srv = ThreadingHTTPServer((args.host, args.port), Handler)
     print("🍔 麦当劳「真」随心配 已启动")
+    print("   监听地址: %s:%d" % (args.host, args.port))
     print("   本机访问: http://127.0.0.1:%d" % args.port)
     if args.host == "0.0.0.0":
         print("   局域网访问: http://%s:%d   (其他用户可访问并投票)" % (lan_ip(), args.port))
     print("   素材库: %s" % MAT_PATH)
     print("   画廊数据: %s" % GALLERY_PATH)
+    try:
+        sys.stdout.flush()
+    except Exception:
+        pass
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

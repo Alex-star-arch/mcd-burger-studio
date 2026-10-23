@@ -21,6 +21,10 @@
 > 门店价格、供应情况以麦当劳官方渠道实时结果为准。
 > 3D 组件为**程序化几何重建**（官方仅提供成品图，无组件级素材），不等同于官方配方或官方模型。
 
+<p align="center">
+  <a href="https://mcd-make-it-your-way.app.workbuddy.host/?sharecode=WN7ERSH3S2"><b>👉 在线体验（无需注册，点开即用）</b></a>
+</p>
+
 ---
 
 ## 📌 参赛信息
@@ -105,6 +109,13 @@
 ---
 
 ## 🚀 快速开始
+
+### 方式一：在线体验（最快，0 配置）
+
+打开 **https://mcd-make-it-your-way.app.workbuddy.host/?sharecode=WN7ERSH3S2** 即可使用，
+无需注册、无需 Token、手机浏览器同样可用。首次打开会做一次访问校验，之后正常使用。
+
+### 方式二：本地运行
 
 ### 前置：申请麦当劳 MCP Token
 
@@ -370,13 +381,14 @@ list-nutrition-foods()
 ```
 mcd-burger-studio/
 ├── README.md                    # 本文件：介绍 / 安装 / 示例 / 目标用户
-├── SKILL.md                     # ⭐ Skill 定义（唯一权威，版本 2.0.0）
+├── SKILL.md                     # ⭐ Skill 定义（唯一权威，版本 2.0.1）
 ├── CHANGELOG.md                 # 版本记录
 ├── CONTEST_DECLARATION.md       # 参赛声明（官方原文，未改动）
 ├── MCP_INTEGRATION.md           # MCP Server / Tool / 调用流程 / 业务价值
 ├── mcp-config.example.json      # 脱敏 MCP 配置（仅环境变量占位）
 ├── workbuddy.md                 # WorkBuddy 开发对话上下文（专项奖励核验用）
 ├── REGISTRATION.md              # 报名 Issue 文案与提交自检清单
+├── SUBMISSION_1024.md           # 1024 造物挑战投稿表单文案（01-13 项）
 ├── LICENSE                      # MIT
 ├── references/                  # Skill 渐进披露文档
 │   ├── mcp-tools.md             #   4 个 MCP 工具的真实参数与能力边界
@@ -401,13 +413,14 @@ mcd-burger-studio/
 ├── scripts/
 │   ├── run.py                     # ⭐ 一键启动（体检→选端口→探活→打印地址）
 │   ├── selfcheck.py               # ⭐ 交付前 8 项断言（不联网、不占固定端口）
+│   ├── prepare_deploy.py          # ⭐ 生成可发布精简目录 _publish/site（13 MB）
 │   ├── studio_server.py           # 零依赖服务（素材 / 发布 / 投票 / 预览图）
 │   ├── refresh_menu_from_mcp.py   # 用 MCP 快照重建素材库并下载官方图
 │   ├── seed_gallery.py            # 生成画廊种子作品
 │   ├── build_materials.py         # 早期素材库构建（已被上者取代）
 │   └── gen_demo3d.py              # 生成离线看板
 ├── gallery/                       # 作品与投票持久化 + 预览图
-└── screenshots/                   # 桌面 / 平板 / 手机截图
+└── screenshots/                   # 桌面 / 平板 / 手机截图（submission/ 为投稿用图）
 ```
 
 ---

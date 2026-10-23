@@ -8,6 +8,8 @@ _backup/
 _legacy_pages/
 # 临时截图
 _shots/
+# 发布用的精简目录（由 scripts/prepare_deploy.py 生成，属构建产物）
+_publish/
 # 早期 InstantMesh 批量产物（123 个 GLB，约 215 MB）
 assets/mcd_models/
 # 早期碎片清理版 GLB
